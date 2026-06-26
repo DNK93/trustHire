@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trust Hire - Teacher Scoring Algorithm</title>
+    <style>
+        /* RESET & BASE STYLES */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #F8FAFC;
+            color: #1E293B;
+            padding: 40px 24px;
+            display: flex;
+            justify-content: center;
+        }
+        .dashboard-container {
+            max-width: 1300px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 28px;
+        }
+
+        /* TYPOGRAPHY */
+        .main-header h1 {
+            color: #0F172A;
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            margin-bottom: 4px;
+        }
+        .main-header p {
+            color: #64748B;
+            font-size: 14px;
+            max-width: 500px;
+            line-height: 1.5;
+        }
+        .main-header .score-range {
+            color: #4F46E5;
+            font-weight: 700;
+        }
+
+        /* TWO COLUMN MAIN CONTENT */
+        .grid-layout {
+            display: grid;
+            grid-template-columns: 1.3fr 1fr;
+            gap: 32px;
+        }
+
+        /* CARD AND BOX BASE STYLES */
+        .content-card {
+            background: #FFFFFF;
+            border-radius: 12px;
+            border: 1px solid #E2E8F0;
+            padding: 24px;
+        }
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #0F172A;
+            margin-bottom: 4px;
+        }
+        .section-subtitle {
+            font-size: 13px;
+            color: #64748B;
+            margin-bottom: 20px;
+        }
+
+        /* PROGRESS BARS AND ALGORITHM ROW STYLES */
+        .algorithm-table-header {
+            display: grid;
+            grid-template-columns: 1.8fr 2.5fr 1fr;
+            padding: 8px 16px;
+            background: #5B44E4;
+            color: #FFFFFF;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 16px;
+        }
+        .row-item {
+            display: grid;
+            grid-template-columns: 1.8fr 2.5fr 1fr;
+            align-items: center;
+            padding: 16px;
+            background: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            position: relative;
+        }
+        .category-meta {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .icon-box {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        .category-meta h4 {
+            font-size: 12px;
+            font-weight: 700;
+            color: #1E293B;
+            line-height: 1.3;
+        }
+        .category-meta p {
+            font-size: 11px;
+            font-weight: 600;
+            margin-top: 1px;
+        }
+        .criteria-list {
+            list-style: none;
+            padding-left: 12px;
+        }
+        .criteria-list li {
+            font-size: 12px;
+            color: #334155;
+            position: relative;
+            margin-bottom: 3px;
+            font-weight: 500;
+        }
+        .criteria-list li::before {
+            content: "•";
+            position: absolute;
+            left: -12px;
+            color: #64748B;
+        }
+        .points-display {
+            text-align: right;
+            padding-right: 8px;
+        }
+        .points-display .num {
+            font-size: 22px;
+            font-weight: 800;
+            line-height: 1;
+            display: block;
+        }
+        .points-display .txt {
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        /* VARIANT ROW COLORS BRANDING */
+        /* Row 1 */
+        .row-academic { background-color: #F8F7FF; border-color: #E0DBFF; }
+        .row-academic .icon-box { background: #EEEAFF; color: #6366F1; }
+        .row-academic .points-display, .row-academic .category-meta p { color: #6366F1; }
+        /* Row 2 */
+        .row-professional { background-color: #F0F7FF; border-color: #D2E7FF; }
+        .row-professional .icon-box { background: #E0F0FF; color: #2563EB; }
+        .row-professional .points-display, .row-professional .category-meta p { color: #2563EB; }
+        /* Row 3 */
+        .row-experience { background-color: #F4FBF7; border-color: #D1F2E2; }
+        .row-experience .icon-box { background: #E6F7ED; color: #16A34A; }
+        .row-experience .points-display, .row-experience .category-meta p { color: #16A34A; }
+        /* Row 4 */
+        .row-awards { background-color: #FFFBF4; border-color: #FFE6C7; }
+        .row-awards .icon-box { background: #FFF3E0; color: #EA580C; }
+        .row-awards .points-display, .row-awards .category-meta p { color: #EA580C; }
+        /* Row 5 */
+        .row-trust { background-color: #FFF5F5; border-color: #FED7D7; }
+        .row-trust .icon-box { background: #FFE4E4; color: #E53E3E; }
+        .row-trust .points-display, .row-trust .category-meta p { color: #E53E3E; }
+        /* Row 6 */
+        .row-engagement { background-color: #FAFAFE; border-color: #E8E8FC; }
+        .row-engagement .icon-box { background: #F0F0FF; color: #4F46E5; }
+        .row-engagement .points-display, .row-engagement .category-meta p { color: #4F46E5; }
+
+        /* RIGHT COLUMN LEVEL TRACKING CARDS */
+        .level-card {
+            display: flex;
+            align-items: center;
+            background: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+            border-left-width: 5px;
+        }
+        .level-card .level-icon-badge {
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            margin-right: 16px;
+            flex-shrink: 0;
+        }
+        .level-info-mid {
+            flex: 1;
+        }
+        .level-info-mid h4 {
+            font-size: 13px;
+            font-weight: 800;
+            letter-spacing: 0.3px;
+            text-transform: uppercase;
+        }
+        .level-points-badge {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 20px;
+            margin: 4px 0 6px 0;
+        }
+        .level-info-mid p {
+            font-size: 11px;
+            color: #64748B;
+            font-weight: 500;
+        }
+        .level-status-tag {
+            border-left: 1px dashed #CBD5E1;
+            padding-left: 16px;
+            margin-left: 16px;
+            text-align: center;
+            width: 140px;
+            font-size: 11px;
+            color: #64748B;
+            font-weight: 500;
+        }
+        .level-status-tag span {
+            display: block;
+            font-size: 18px;
+            margin-bottom: 2px;
+        }
+
+        /* LEVEL VARIANT CARD COLORS */
+        .lvl-foundation { border-left-color: #94A3B8; }
+        .lvl-foundation .level-icon-badge { background: #F1F5F9; color: #64748B; }
+        .lvl-foundation h4 { color: #475569; }
+        .lvl-foundation .level-points-badge { background: #E2E8F0; color: #475569; }
+        
+        .lvl-intermediate { border-left-color: #3B82F6; }
+        .lvl-intermediate .level-icon-badge { background: #EFF6FF; color: #3B82F6; }
+        .lvl-intermediate h4 { color: #1D4ED8; }
+        .lvl-intermediate .level-points-badge { background: #DBEAFE; color: #1D4ED8; }
+
+        .lvl-advanced { border-left-color: #22C55E; }
+        .lvl-advanced .level-icon-badge { background: #F0FDF4; color: #22C55E; }
+        .lvl-advanced h4 { color: #15803D; }
+        .lvl-advanced .level-points-badge { background: #DCFCE7; color: #15803D; }
+
+        .lvl-expert { border-left-color: #F59E0B; }
+        .lvl-expert .level-icon-badge { background: #FFFBEB; color: #F59E0B; }
+        .lvl-expert h4 { color: #B45309; }
+        .lvl-expert .level-points-badge { background: #FEF3C7; color: #B45309; }
+
+        .lvl-master { border-left-color: #6366F1; }
+        .lvl-master .level-icon-badge { background: #EEEAFF; color: #6366F1; }
+        .lvl-master h4 { color: #4338CA; }
+        .lvl-master .level-points-badge { background: #E0DBFF; color: #4338CA; }
+
+        /* FOOTER DETAILED BREAKDOWN ROW AREA */
+        .bottom-split {
+            display: grid;
+            grid-template-columns: 1.6fr 1fr;
+            gap: 32px;
+        }
+        .breakdown-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 12px;
+            margin-top: 16px;
+        }
+        .breakdown-col {
+            font-size: 11px;
+            border-right: 1px solid #E2E8F0;
+            padding-right: 8px;
+        }
+        .breakdown-col:last-child { border: none; }
+        .breakdown-col h5 {
+            font-size: 9px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #475569;
+            margin-bottom: 8px;
+            line-height: 1.2;
+            height: 24px;
+        }
+        .breakdown-col ul {
+            list-style: none;
+        }
+        .breakdown-col ul li {
+            display: flex;
+            justify-content: space-between;
+            color: #64748B;
+            margin-bottom: 4px;
+            font-weight: 500;
+        }
+        .breakdown-col ul li span:last-child {
+            color: #334155;
+            font-weight: 600;
+        }
+        .col-total {
+            margin-top: 12px;
+            font-weight: 700;
+            color: #2563EB;
+            font-size: 10px;
+        }
+        .footer-note {
+            margin-top: 16px;
+            font-size: 11px;
+            color: #64748B;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* CALCULATION SIMULATOR CARD ENGINE */
+        .calculator-flex {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            margin-top: 14px;
+        }
+        .calc-sheet {
+            flex: 1;
+        }
+        .calc-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            margin-bottom: 5px;
+            color: #475569;
+            font-weight: 500;
+        }
+        .calc-row span:last-child {
+            font-weight: 600;
+            color: #1E293B;
+        }
+        .calc-total-bar {
+            border-top: 2px solid #E2E8F0;
+            margin-top: 10px;
+            padding-top: 8px;
+            display: flex;
+            justify-content: space-between;
+            font-weight: 800;
+            font-size: 13px;
+            color: #16A34A;
+        }
+        .arrow-indicator {
+            font-size: 20px;
+            color: #CBD5E1;
+        }
+        .badge-preview-box {
+            background: #F8FAFC;
+            border: 1px dashed #22C55E;
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+            width: 130px;
+        }
+        .badge-preview-box .icon {
+            font-size: 28px;
+            color: #22C55E;
+            margin-bottom: 6px;
+        }
+        .badge-preview-box h5 {
+            font-size: 11px;
+            font-weight: 800;
+            color: #15803D;
+            text-transform: uppercase;
+        }
+        .badge-preview-box .score-range-p {
+            background: #DCFCE7;
+            color: #15803D;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 6px;
+            margin: 4px 0;
+            display: inline-block;
+        }
+        .badge-preview-box p {
+            font-size: 9px;
+            color: #64748B;
+            font-weight: 500;
+        }
+        button {
+            background: #5B44E4;
+            color: #FFFFFF;
+            font-size: 13px;
+            font-weight: 700;
+            padding: 24px 24px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #4F46E5;
+        }
+        .spe{
+            display: flex;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="dashboard-container">
+        <div class="spe">
+        <div class="main-header">
+            <h1>TEACHER SCORING ALGORITHM</h1>
+            <p>Total Score: <span class="score-range">0 - 100 Points</span><br>Teachers are evaluated across 6 key areas. The total score determines their level on the platform.</p>
+        </div>
+        <div class="bnt">
+          <a href="index.html">  <button>Back</button></a>
+        </div>
+</div>
+        <div class="grid-layout">
+            
+            <div class="content-card">
+                <div class="algorithm-table-header">
+                    <span>Category</span>
+                    <span>Criteria</span>
+                    <span style="text-align: right; padding-right: 8px;">Points</span>
+                </div>
+
+                <div class="row-item row-academic">
+                    <div class="category-meta">
+                        <div class="icon-box">🎓</div>
+                        <div>
+                            <h4>1. ACADEMIC<br>QUALIFICATIONS</h4>
+                            <p>(Max 30 Points)</p>
+                        </div>
+                    </div>
+                    <div>
+                        <ul class="criteria-list">
+                            <li>Bachelor's Degree (Required)</li>
+                            <li>Master's Degree</li>
+                            <li>PhD</li>
+                        </ul>
+                    </div>
+                    <div class="points-display">
+                        <span class="num">30</span>
+                        <span class="txt">Points</span>
+                    </div>
+                </div>
+
+                <div class="row-item row-professional">
+                    <div class="category-meta">
+                        <div class="icon-box">🏅</div>
+                        <div>
+                            <h4>2. PROFESSIONAL<br>CERTIFICATIONS</h4>
+                            <p>(Max 20 Points)</p>
+                        </div>
+                    </div>
+                    <div>
+                        <ul class="criteria-list">
+                            <li>TRCN Registration</li>
+                            <li>Additional Professional Certs</li>
+                            <li>Training & Workshops</li>
+                        </ul>
+                    </div>
+                    <div class="points-display">
+                        <span class="num">20</span>
+                        <span class="txt">Points</span>
+                    </div>
+                </div>
+
+                <div class="row-item row-experience">
+                    <div class="category-meta">
+                        <div class="icon-box">💼</div>
+                        <div>
+                            <h4>3. TEACHING<br>EXPERIENCE</h4>
+                            <p>(Max 20 Points)</p>
+                        </div>
+                    </div>
+                    <div>
+                        <ul class="criteria-list">
+                            <li>1-2 years / 3-5 years</li>
+                            <li>6-10 years</li>
+                            <li>10+ years</li>
+                        </ul>
+                    </div>
+                    <div class="points-display">
+                        <span class="num">20</span>
+                        <span class="txt">Points</span>
+                    </div>
+                </div>
+
+                <div class="row-item row-awards">
+                    <div class="category-meta">
+                        <div class="icon-box">🏆</div>
+                        <div>
+                            <h4>4. ACHIEVEMENTS<br>& AWARDS</h4>
+                            <p>(Max 15 Points)</p>
+                        </div>
+                    </div>
+                    <div>
+                        <ul class="criteria-list">
+                            <li>Teaching Awards</li>
+                            <li>Student Performance Impact</li>
+                            <li>Competitions & Recognition</li>
+                        </ul>
+                    </div>
+                    <div class="points-display">
+                        <span class="num">15</span>
+                        <span class="txt">Points</span>
+                    </div>
+                </div>
+
+                <div class="row-item row-trust">
+                    <div class="category-meta">
+                        <div class="icon-box">🛡️</div>
+                        <div>
+                            <h4>5. VERIFICATION<br>& TRUST</h4>
+                            <p>(Max 10 Points)</p>
+                        </div>
+                    </div>
+                    <div>
+                        <ul class="criteria-list">
+                            <li>All Documents Verified</li>
+                            <li>Identity Verified</li>
+                            <li>Background Check</li>
+                        </ul>
+                    </div>
+                    <div class="points-display">
+                        <span class="num">10</span>
+                        <span class="txt">Points</span>
+                    </div>
+                </div>
+
+                <div class="row-item row-engagement">
+                    <div class="category-meta">
+                        <div class="icon-box">👥</div>
+                        <div>
+                            <h4>6. PROFESSIONAL<br>ENGAGEMENT</h4>
+                            <p>(Max 5 Points)</p>
+                        </div>
+                    </div>
+                    <div>
+                        <ul class="criteria-list">
+                            <li>Platform Engagement</li>
+                            <li>Profile Completeness</li>
+                            <li>Response Rate</li>
+                        </ul>
+                    </div>
+                    <div class="points-display">
+                        <span class="num">5</span>
+                        <span class="txt">Points</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <div>
+                <h3 class="section-title">LEVEL SYSTEM</h3>
+                <p class="section-subtitle">Your level is based on your total score</p>
+
+                <div class="level-card lvl-foundation">
+                    <div class="level-icon-badge">🌱</div>
+                    <div class="level-info-mid">
+                        <h4>FOUNDATION</h4>
+                        <span class="level-points-badge">0 - 39 Points</span>
+                        <p>Qualified graduate teacher with basic requirements</p>
+                    </div>
+                    <div class="level-status-tag">
+                        <span>👑</span> Starting your teaching journey
+                    </div>
+                </div>
+
+                <div class="level-card lvl-intermediate">
+                    <div class="level-icon-badge">⭐</div>
+                    <div class="level-info-mid">
+                        <h4>INTERMEDIATE</h4>
+                        <span class="level-points-badge">40 - 59 Points</span>
+                        <p>Teacher with some experience and additional qualifications</p>
+                    </div>
+                    <div class="level-status-tag">
+                        <span>📈</span> Growing your teaching career
+                    </div>
+                </div>
+
+                <div class="level-card lvl-advanced">
+                    <div class="level-icon-badge">🛡️</div>
+                    <div class="level-info-mid">
+                        <h4>ADVANCED</h4>
+                        <span class="level-points-badge">60 - 74 Points</span>
+                        <p>Experienced teacher with strong qualifications</p>
+                    </div>
+                    <div class="level-status-tag">
+                        <span>🎯</span> Proven experience and skills
+                    </div>
+                </div>
+
+                <div class="level-card lvl-expert">
+                    <div class="level-icon-badge">👑</div>
+                    <div class="level-info-mid">
+                        <h4>EXPERT</h4>
+                        <span class="level-points-badge">75 - 89 Points</span>
+                        <p>Highly experienced teacher with excellent track record</p>
+                    </div>
+                    <div class="level-status-tag">
+                        <span>🏅</span> Recognized expert in your field
+                    </div>
+                </div>
+
+                <div class="level-card lvl-master">
+                    <div class="level-icon-badge">💎</div>
+                    <div class="level-info-mid">
+                        <h4>MASTER</h4>
+                        <span class="level-points-badge">90 - 100 Points</span>
+                        <p>Outstanding educator with exceptional achievements</p>
+                    </div>
+                    <div class="level-status-tag">
+                        <span>🏆</span> Top-tier educator and mentor
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="bottom-split">
+            
+            <div class="content-card">
+                <h3 class="section-title" style="font-size:14px;">📊 DETAILED SCORING BREAKDOWN</h3>
+                
+                <div class="breakdown-grid">
+                    <div class="breakdown-col">
+                        <h5>1. ACADEMIC QUALIFICATIONS</h5>
+                        <ul>
+                            <li><span>Bachelor's</span> <span>15 pts</span></li>
+                            <li><span>Master's</span> <span>10 pts</span></li>
+                            <li><span>PhD</span> <span>5 pts</span></li>
+                        </ul>
+                        <p class="col-total">Total: 30 Points</p>
+                    </div>
+                    <div class="breakdown-col">
+                        <h5>2. PROFESSIONAL CERTIFICATIONS</h5>
+                        <ul>
+                            <li><span>TRCN Reg.</span> <span>10 pts</span></li>
+                            <li><span>Add. Certs</span> <span>6 pts</span></li>
+                            <li><span>Workshops</span> <span>4 pts</span></li>
+                        </ul>
+                        <p class="col-total" style="color:#2563EB;">Total: 20 Points</p>
+                    </div>
+                    <div class="breakdown-col">
+                        <h5>3. TEACHING EXPERIENCE</h5>
+                        <ul>
+                            <li><span>1-2 years</span> <span>5 pts</span></li>
+                            <li><span>3-5 years</span> <span>10 pts</span></li>
+                            <li><span>6-10 years</span> <span>15 pts</span></li>
+                            <li><span>10+ years</span> <span>20 pts</span></li>
+                        </ul>
+                        <p class="col-total" style="color:#16A34A;">Total: 20 Points</p>
+                    </div>
+                    <div class="breakdown-col">
+                        <h5>4. ACHIEVEMENTS & AWARDS</h5>
+                        <ul>
+                            <li><span>Awards</span> <span>7 pts</span></li>
+                            <li><span>Impact</span> <span>5 pts</span></li>
+                            <li><span>Compet.</span> <span>3 pts</span></li>
+                        </ul>
+                        <p class="col-total" style="color:#EA580C;">Total: 15 Points</p>
+                    </div>
+                    <div class="breakdown-col">
+                        <h5>5. VERIFICATION & TRUST</h5>
+                        <ul>
+                            <li><span>All Docs</span> <span>5 pts</span></li>
+                            <li><span>Identity</span> <span>3 pts</span></li>
+                            <li><span>Backgrd.</span> <span>2 pts</span></li>
+                        </ul>
+                        <p class="col-total" style="color:#E53E3E;">Total: 10 Points</p>
+                    </div>
+                    <div class="breakdown-col">
+                        <h5>6. PROFESSIONAL ENGAGEMENT</h5>
+                        <ul>
+                            <li><span>Profile Comp.</span> <span>2 pts</span></li>
+                            <li><span>Engagement</span> <span>2 pts</span></li>
+                            <li><span>Resp. Rate</span> <span>1 pt</span></li>
+                        </ul>
+                        <p class="col-total" style="color:#4F46E5;">Total: 5 Points</p>
+                    </div>
+                </div>
+
+                <div class="footer-note">
+                    <span>ℹ️</span> Note: All documents must be verified to earn full points in each category.
+                </div>
+            </div>
+
+            <div class="content-card">
+                <h3 class="section-title" style="font-size:14px;">📝 EXAMPLE CALCULATION</h3>
+                
+                <div class="calculator-flex">
+                    <div class="calc-sheet">
+                        <div class="calc-row"><span>Master's Degree</span> <span>10/30</span></div>
+                        <div class="calc-row"><span>TRCN + 2 Certifications</span> <span>16/20</span></div>
+                        <div class="calc-row"><span>7 Years Experience</span> <span>15/20</span></div>
+                        <div class="calc-row"><span>2 Teaching Awards</span> <span>10/15</span></div>
+                        <div class

@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trust Hire - Employer Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+       <aside>
+        <div class="sidebar-brand-box">
+            <svg viewBox="0 0 24 24">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+            </svg>
+            <span>Trust Hire</span>
+        </div>
+        <div class="sidebar-menu-scroller">
+            <a href="index.html" class="menu-item active">
+                <div class="menu-item-left">
+                    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>
+                    <span>Home</span>
+                </div>
+            </a>
+            <a href="listing candidate.html" class="menu-item">
+                <div class="menu-item-left">
+                    <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                    <span>Search Candidates</span>
+                </div>
+            </a>
+            <a href="save.html" class="menu-item">
+                <div class="menu-item-left">
+                    <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    <span>Saved Candidates</span>
+                </div>
+            </a>
+            <a href="profile.html" class="menu-item">
+                <div class="menu-item-left">
+                    <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    <span>Candidate Profiles</span>
+                </div>
+            <a href="scoring.html" class="menu-item">
+                <div class="menu-item-left">
+                    <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    <span>Trust Score Method</span>
+                </div>
+            </a>
+            <a href="analitical.html" class="menu-item">
+                <div class="menu-item-left">
+                    <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                    <span>Analytics</span>
+                </div>
+            </a>
+            <a href="about.html" class="menu-item">
+                <div class="menu-item-left">
+                    <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    <span>Company Profile</span>
+                </div>
+            </a>
+            <a href="notification.html" class="menu-item">
+                <div class="menu-item-left">
+                    <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                    <span>Notifications</span>
+                </div>
+                <span class="menu-badge">3</span>
+            </a>
+            <a href="billing.html" class="menu-item">
+                <div class="menu-item-left">
+                    <svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+                    <span>Billing</span>
+                </div>
+            </a>
+            <a href="settings.html" class="menu-item">
+                <div class="menu-item-left">
+                    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                    <span>Settings</span>
+                </div>
+            </a>
+        </div>
+        <div class="sidebar-footer">
+            <a href="#" class="menu-item">
+                <div class="menu-item-left">
+                    <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                    <span>Logout</span>
+                </div>
+            </a>
+        </div>
+    </aside>
+   <main>
+        <!-- Top Application Navigation Header Strip -->
+        <header>
+            <h1> Welcome to Trust Hire</h1>
+            <div class="header-controls">
+                <button class="header-icon-badge-trigger">🔔</button>
+                <button class="header-icon-badge-trigger">✉️</button>
+                <div class="user-pill-dropdown">
+                    <div class="user-avatar-frame">DNK</div>
+                    <div class="user-title-block">
+                        <p class="name">DNK Official</p>
+                        <p class="role">Employer</p>
+                    </div>
+                </div>
+            </div>
+        </header>
+<div class="app-container">
+      <div class="dashboard-bdy">
+            
+            <section class="hero-banner">
+                <div class="hero-text">
+                    <h1>👋 Welcome Back, DNK</h1>
+                    <p>Hire smarter with AI-powered recommendations built to optimize your workflow.</p>
+                    <div class="hero-actions">
+                        <button class="btn btn-primary"><i class="fa-solid fa-magnifying-glass"></i> Search Candidates</button>
+                   
+                    </div>
+                </div>
+                <div class="hero-insight">
+                    <h3><i class="fa-solid fa-robot"></i> Today's AI Insight</h3>
+                    <ul>
+                        <li><i class="fa-solid fa-circle-check text-success"></i> <strong>18</strong> perfect matches found</li>
+                        <li><i class="fa-solid fa-calendar text-warning"></i> <strong>3</strong> interviews scheduled today</li>
+                        <li><i class="fa-solid fa-envelope"></i> <strong>12</strong> unread messages</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="stats-grid">
+                <div class="stat-card">
+                    <span class="stat-title">Candidates</span>
+                    <span class="stat-value">1,284</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-title">Saved</span>
+                    <span class="stat-value">42</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-title">Interviews</span>
+                    <span class="stat-value">8</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-title">Messages</span>
+                    <span class="stat-value">17</span>
+                </div>
+                <div class="stat-card highlight">
+                    <span class="stat-title">Avg Trust Score</span>
+                    <span class="stat-value">92%</span>
+                </div>
+            </section>
+
+            <section class="dashboard-section">
+                <div class="section-header">
+                    <h2><i class="fa-solid fa-wand-magic-sparkles"></i> Recommended Candidates</h2>
+                    <a href="#" class="see-all">View All Recommendations</a>
+                </div>
+                
+                <div class="candidate-card">
+                    <div class="candidate-info">
+                        <div class="candidate-avatar">JD</div>
+                        <div>
+                            <div class="candidate-name-row">
+                                <h3>John Daniel</h3>
+                                <span class="trust-badge"><i class="fa-solid fa-shield-check"></i> Trust Score 96%</span>
+                            </div>
+                            <p class="candidate-role">Frontend Developer • Lagos</p>
+                            <div class="skills-tags">
+                                <span>HTML</span><span>CSS</span><span>JavaScript</span><span>React</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="candidate-actions">
+                        <button class="btn btn-outline">View Profile</button>
+                        <button class="btn btn-icon"><i class="fa-solid fa-star"></i></button>
+                        <button class="btn btn-icon"><i class="fa-solid fa-comment text-blue"></i></button>
+                    </div>
+                </div>
+
+                <div class="candidate-card">
+                    <div class="candidate-info">
+                        <div class="candidate-avatar accent">GS</div>
+                        <div>
+                            <div class="candidate-name-row">
+                                <h3>Grace Samuel</h3>
+                                <span class="trust-badge"><i class="fa-solid fa-shield-check"></i> Trust Score 94%</span>
+                            </div>
+                            <p class="candidate-role">UI/UX Designer • Abuja</p>
+                            <div class="skills-tags">
+                                <span>Figma</span><span>Adobe XD</span><span>UX Research</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="candidate-actions">
+                        <button class="btn btn-outline">View Profile</button>
+                        <button class="btn btn-icon"><i class="fa-solid fa-star"></i></button>
+                        <button class="btn btn-icon"><i class="fa-solid fa-comment text-blue"></i></button>
+                    </div>
+                </div>
+            </section>
+
+            <div class="split-grid">
+                <div class="card-panel">
+                    <h3>Recent Activity</h3>
+                    <ul class="activity-list">
+                        <li><i class="fa-solid fa-circle-check text-success"></i> Saved Candidate: Grace Samuel</li>
+                        <li><i class="fa-solid fa-circle-check text-success"></i> Interview Scheduled with John Daniel</li>
+                        <li><i class="fa-solid fa-wand-magic-sparkles text-blue"></i> AI Found 8 New Matches</li>
+                        <li><i class="fa-solid fa-pen-to-square text-warning"></i> Company Profile Updated</li>
+                    </ul>
+                </div>
+
+                <div class="card-panel">
+                    <h3>Upcoming Interviews</h3>
+                    <ul class="interview-list">
+                        <li>
+                            <div class="time">10:00 AM</div>
+                            <div class="details">
+                                <strong>John Daniel</strong>
+                                <span>Frontend Interview</span>
+                            </div>
+                            <button class="btn btn-sm btn-primary">Join</button>
+                        </li>
+                        <li>
+                            <div class="time">01:30 PM</div>
+                            <div class="details">
+                                <strong>Grace Samuel</strong>
+                                <span>Portfolio Review</span>
+                            </div>
+                            <button class="btn btn-sm btn-primary">Join</button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <section class="dashboard-section">
+                <h2>Quick Actions</h2>
+                <div class="quick-actions-grid">
+                    <div class="action-item"><i class="fa-solid fa-magnifying-glass"></i> Search Candidates</div>
+                    <div class="action-item"><i class="fa-solid fa-star"></i> Saved Candidates</div>
+                    <div class="action-item"><i class="fa-solid fa-chart-line"></i> Analytics Dashboard</div>
+                    <div class="action-item"><i class="fa-solid fa-building"></i> Company Profile</div>
+                </div>
+            </section>
+
+            <section class="dashboard-section">
+                <h2>Hiring Analytics</h2>
+                <div class="chart-placeholder">
+                    <i class="fa-solid fa-chart-area fa-3x"></i>
+                    <p>Monthly Hiring Performance Chart (Interactive Chart Visualization Module)</p>
+                </div>
+            </section>
+
+        
+
+        <footer class="main-footer">
+            <span>Trust Hire © 2026</span>
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Support</a>
+            </div>
+        </footer>
+    </div>
+</div>
+      </main>
+
+</body> 
+<style>
+    /* --- RESET & VARIABLES --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+:root {
+    --primary-blue: #2563EB;
+    --sidebar-dark: #0F172A;
+    --bg-light: #F4F7FC;
+    --card-white: #FFFFFF;
+    --text-main: #1E293B;
+    --text-muted: #64748B;
+    --success: #22C55E;
+    --warning: #F59E0B;
+    --danger: #EF4444;
+    --border-color: #E2E8F0;
+}
+
+
+body {font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #F1F5F9;
+            color: #1E293B;
+            display: flex;
+          height: 100vh;
+          overflow: hidden;
+             }
+
+/* --- SIDEBAR STYLE --- */
+       aside {
+            width: 260px;
+            background-color: #0B132B;
+            color: #94A3B8;
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+            height: 100%;
+            overflow: hidden;
+        }
+        .sidebar-brand-box {
+            padding: 24px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #FFFFFF;
+            font-size: 20px;
+            font-weight: 700;
+        }
+        .sidebar-brand-box svg {
+            width: 28px;
+            height: 28px;
+            fill: #6366F1;
+        }
+        .sidebar-menu-scroller {
+            flex: 1;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+           
+        }
+        .menu-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            color: #94A3B8;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+        .menu-item-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .menu-item svg {
+            width: 18px;
+            height: 18px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+        }
+        .menu-item:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            color: #F8FAFC;
+        }
+        .menu-item.active {
+            background-color: #1E293B;
+            color: #A5B4FC;
+            font-weight: 600;
+            box-shadow: inset 4px 0 0 #6366F1;
+        }
+        .menu-badge {
+            background-color: #4338CA;
+            color: #FFFFFF;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 10px;
+        }
+        .sidebar-footer {
+            padding: 16px 12px;
+            border-top: 1px solid #1E293B;
+        }
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            overflow: hidden;
+        }
+        .app-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+         header {
+            background-color: #0B132B;
+            color: #FFFFFF;
+            padding: 24px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #1E293B;
+            flex-shrink: 0;
+        }
+        header h1 {
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .header-icon-badge-trigger {
+            background: none;
+            border: none;
+            color: #94A3B8;
+            cursor: pointer;
+            font-size: 16px;
+            position: relative;
+        }
+        .user-pill-dropdown {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding-left: 12px;
+            border-left: 1px solid #1E293B;
+        }
+        .user-avatar-frame {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background-color: #475569;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 10px;
+            color: #FFFFFF;
+        }
+        .user-title-block {
+            text-align: left;
+            line-height: 1.1;
+        }
+        .user-title-block .name {
+            font-size: 11px;
+            font-weight: 600;
+            color: #F8FAFC;
+        }
+        .user-title-block .role {
+            font-size: 9px;
+            color: #94A3B8;
+        }
+
+        /* COMPACT NAVIGATION SIDEBAR ASSEMBLY */
+       
+        .sidebar-brand-icon {
+            border-radius: 50%;
+           
+            padding: 4px;
+        }
+        .sidebar-nav-scroller {
+            flex: 1;
+            padding: 4px 8px;
+            overflow-y: auto;
+        }
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 12px;
+            border-radius: 6px;
+            color: #94A3B8;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 500;
+            margin-bottom: 2px;
+        }
+        .sidebar-link:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            color: #FFFFFF;
+        }
+        .sidebar-link.active {
+            background: linear-gradient(90deg, #4F46E5, #6366F1);
+            color: #FFFFFF;
+            font-weight: 600;
+        }
+        .sidebar-bottom-action {
+            padding: 12px;
+            border-top: 1px solid #1E293B;
+        }
+
+        /* WELCOME STRIP HERO ELEMENT */
+        
+        .welcome-msg h2 {
+            font-size: 20px;
+            font-weight: 700;
+            color: #0F172A;
+        }
+        .welcome-msg p {
+            font-size: 12px;
+            color: #64748B;
+            margin-top: 4px;
+        }
+        .btn-post-job {
+            background-color: #4F46E5;
+            color: #FFFFFF;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 10px 18px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .btn-post-job:hover {
+            background-color: #4338CA;
+        }
+
+
+
+/* --- MAIN CONTENT FRAME --- */
+
+
+/* --- TOP NAVIGATION --- */
+
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.user-profile .avatar {
+    width: 36px;
+    height: 36px;
+    background-color: var(--primary-blue);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* --- DASHBOARD BODY CONTAINER --- */
+.dashboard-body {
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    margin-bottom: 32px;
+}
+
+/* --- HERO BANNER --- */
+.hero-banner {
+    background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
+    border-radius: 16px;
+    color: #FFFFFF;
+    padding: 32px;
+    margin-bottom: 32px;
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 32px;
+    align-items: center;
+}
+
+.hero-text h1 {
+    font-size: 2rem;
+    margin-bottom: 8px;
+}
+
+.hero-text p {
+    opacity: 0.9;
+    margin-bottom: 24px;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.hero-actions {
+    display: flex;
+    gap: 12px;
+}
+
+.hero-insight {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 24px;
+    backdrop-filter: blur(4px);
+}
+
+.hero-insight h3 {
+    margin-bottom: 16px;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.hero-insight ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.hero-insight li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.95rem;
+}
+
+/* --- STATS GRID --- */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+    margin-bottom: 32px;
+}
+
+.stat-card {
+    background-color: var(--card-white);
+    padding: 20px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    border: 1px solid var(--border-color);
+}
+
+.stat-card.highlight {
+    border-color: var(--primary-blue);
+    background-color: #EFF6FF;
+}
+
+.stat-title {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.stat-value {
+    font-size: 1.75rem;
+    font-weight: 700;
+}
+
+/* --- GENERAL SECTIONS --- */
+.dashboard-section {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 32px;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.section-header h2, .dashboard-section h2 {
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.see-all {
+    color: var(--primary-blue);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+/* --- CANDIDATE CARDS --- */
+.candidate-card {
+    background-color: var(--card-white);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+    margin-bottom: 16px;
+}
+
+.candidate-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05);
+}
+
+.candidate-info {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.candidate-avatar {
+    width: 56px;
+    height: 56px;
+    background-color: #E0E7FF;
+    color: #4338CA;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.2rem;
+}
+
+.candidate-avatar.accent {
+    background-color: #FEE2E2;
+    color: #B91C1C;
+}
+
+.candidate-name-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 4px;
+}
+
+.candidate-role {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+}
+
+.trust-badge {
+    background-color: #DCFCE7;
+    color: #15803D;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 50px;
+}
+
+.skills-tags {
+    display: flex;
+    gap: 6px;
+}
+
+.skills-tags span {
+    background-color: var(--bg-light);
+    font-size: 0.8rem;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-weight: 500;
+}
+
+.candidate-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* --- SPLIT GRID (ACTIVITIES & INTERVIEWS) --- */
+.split-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 32px;
+
+}
+
+.card-panel {
+    background-color: var(--card-white);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 24px;
+}
+
+.card-panel h3 {
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 12px;
+}
+
+.activity-list, .interview-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.activity-list li {
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.interview-list li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--bg-light);
+    padding: 12px 16px;
+    border-radius: 8px;
+}
+
+.interview-list .time {
+    font-weight: 700;
+    color: var(--primary-blue);
+    font-size: 0.9rem;
+}
+
+.interview-list .details {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    margin-left: 20px;
+}
+
+.interview-list .details span {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+/* --- QUICK ACTIONS GRID --- */
+.quick-actions-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+}
+
+.action-item {
+    background-color: var(--card-white);
+    border: 1px solid var(--border-color);
+    padding: 16px;
+    border-radius: 12px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.action-item:hover {
+    background-color: #EFF6FF;
+    border-color: var(--primary-blue);
+    color: var(--primary-blue);
+}
+
+/* --- ANALYTICS PLACEHOLDER --- */
+.chart-placeholder {
+    background-color: var(--card-white);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    height: 220px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    color: var(--text-muted);
+}
+
+/* --- BUTTONS SYSTEM --- */
+.btn {
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: opacity 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn:hover {
+    opacity: 0.9;
+}
+
+.btn-primary { background-color: var(--primary-blue); color: #FFFFFF; }
+.btn-secondary { background-color: rgba(255, 255, 255, 0.2); color: #FFFFFF; }
+.btn-outline { background-color: transparent; border: 1px solid var(--border-color); color: var(--text-main); }
+.btn-outline:hover { background-color: var(--bg-light); }
+.btn-sm { padding: 6px 14px; font-size: 0.8rem; }
+
+.btn-icon {
+    background: var(--bg-light);
+    border: 1px solid var(--border-color);
+    width: 38px;
+    height: 38px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--text-muted);
+}
+
+/* --- GLOBAL HELPER CLASSES --- */
+.text-success { color: var(--success); }
+.text-warning { color: var(--warning); }
+.text-blue { color: var(--primary-blue); }
+
+/* --- FOOTER --- */
+
+.main-footer { margin-top: auto; padding: 24px 32px; border-top: 1px solid var(--border-color); display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--text-muted); background-color: var(--card-white); }
+        .footer-links { display: flex; gap: 16px; }
+        .footer-links a { color: var(--text-muted); text-decoration: none; }
+
+
+/* --- RESPONSIVE MEDIA QUERIES --- */
+@media (max-width: 1200px) {
+    .hero-banner { grid-template-columns: 1fr; }
+    .stats-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (max-width: 900px) {
+    .sidebar { width: 70px; }
+    .sidebar .logo h2 span, .nav-item { font-size: 0; padding: 14px; justify-content: center; }
+    .sidebar .logo h2 i, .nav-item i { margin: 0; font-size: 1.2rem; }
+    .main-content { margin-left: 70px; }
+    .split-grid { grid-template-columns: 1fr; }
+    .quick-actions-grid { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
+</html>

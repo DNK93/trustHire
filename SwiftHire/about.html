@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trust Hire - Company Profile</title>
+    <style>
+        /* SYSTEM STYLE RESET & FONTS */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #F8FAFC;
+            color: #0F172A;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* PERMANENT DARK LEFT SIDEBAR SYSTEM */
+        aside {
+            width: 260px;
+            background-color: #0B132B;
+            color: #94A3B8;
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+            height: 100%;
+        }
+        .sidebar-brand-box {
+            padding: 24px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #FFFFFF;
+            font-size: 20px;
+            font-weight: 700;
+        }
+        .sidebar-brand-box svg {
+            width: 28px;
+            height: 28px;
+            fill: #6366F1;
+        }
+        .sidebar-menu-scroller {
+            flex: 1;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+           
+        }
+        .menu-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            color: #94A3B8;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+        .menu-item-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .menu-item svg {
+            width: 18px;
+            height: 18px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+        }
+        .menu-item:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            color: #F8FAFC;
+        }
+        .menu-item.active {
+            background-color: #1E293B;
+            color: #A5B4FC;
+            font-weight: 600;
+            box-shadow: inset 4px 0 0 #6366F1;
+        }
+        .menu-badge {
+            background-color: #4338CA;
+            color: #FFFFFF;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 10px;
+        }
+        .sidebar-footer {
+            padding: 16px 12px;
+            border-top: 1px solid #1E293B;
+        }
+
+        /* RIGHT MAIN WORKSPACE SCROLLER */
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            overflow: hidden;
+        }
+        
+        /* WORKSPACE SUB-TOP BAR CONTROLLER */
+        .workspace-top-bar {
+            background-color: #0B132B;
+            border-bottom: 1px solid #E2E8F0;
+            padding: 16px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+        }
+        .top-title-area h1 {
+            font-size: 22px;
+            font-weight: 700;
+            color: #64748B;
+        }
+        .top-title-area p {
+            font-size: 13px;
+            color: #64748B;
+            margin-top: 2px;
+        }
+        .top-user-controls {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .notif-bell-trigger {
+            position: relative;
+            cursor: pointer;
+            color: #64748B;
+        }
+        .notif-bell-trigger svg {
+            width: 22px;
+            height: 22px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+        }
+        .bell-badge {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            background-color: #6366F1;
+            color: #FFFFFF;
+            font-size: 9px;
+            font-weight: 700;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .profile-dropdown-pill {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+        .avatar-circle {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: #6366F1;
+            color: #FFFFFF;
+            font-size: 12px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .profile-dropdown-pill span {
+            font-size: 13px;
+            font-weight: 600;
+            color: #334155;
+        }
+
+        /* CORE PANEL DASHBOARD VIEWPORTS CONTAINER */
+        .workspace-content-canvas {
+            flex: 1;
+            overflow-y: auto;
+            padding: 32px 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        /* CARD DECK STRUCTURAL PLATFORM */
+        .content-card-board {
+            background-color: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            border-radius: 12px;
+            padding: 24px;
+        }
+        .card-inner-flex {
+            display: flex;
+            justify-content: space-between;
+            gap: 40px;
+        }
+
+        /* CORE HERO INFO ELEMENT BLOCK */
+        .hero-info-left {
+            display: flex;
+            gap: 20px;
+        }
+        .company-big-logo {
+            width: 80px;
+            height: 80px;
+            background-color: #0F172A;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .company-big-logo svg {
+            width: 44px;
+            height: 44px;
+            fill: #6366F1;
+        }
+        .hero-text-details h2 {
+            font-size: 20px;
+            font-weight: 700;
+            color: #0F172A;
+        }
+        .badge-verified-employer {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background-color: #DCFCE7;
+            color: #15803D;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 20px;
+            margin: 6px 0 10px 0;
+        }
+        .stars-row {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 13px;
+            color: #64748B;
+            font-weight: 500;
+        }
+        .stars-gold {
+            color: #F59E0B;
+            font-size: 14px;
+        }
+        .meta-geo-strip {
+            display: flex;
+            gap: 24px;
+            margin-top: 14px;
+            font-size: 13px;
+            color: #64748B;
+            font-weight: 500;
+        }
+        .meta-geo-strip div {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .meta-geo-strip svg {
+            width: 16px;
+            height: 16px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+        }
+
+        /* HERO VERIFICATION SIDE PANEL */
+        .hero-verification-side {
+            border-left: 1px solid #E2E8F0;
+            padding-left: 40px;
+            min-width: 260px;
+        }
+        .hero-verification-side h4 {
+            font-size: 12px;
+            font-weight: 700;
+            color: #475569;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+        }
+        .verification-checklist-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+            color: #334155;
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+        .verification-checklist-item svg {
+            width: 16px;
+            height: 16px;
+            fill: #22C55E;
+            color: #FFFFFF;
+        }
+
+        /* EDIT ACTION BUTTON COMPONENT ELEMENTS */
+        .btn-outline-action {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid #C7D2FE;
+            background-color: #FFFFFF;
+            color: #4338CA;
+            font-size: 13px;
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 16px;
+            transition: all 0.2s ease;
+        }
+        .btn-outline-action svg {
+            width: 14px;
+            height: 14px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+        }
+        .btn-outline-action:hover {
+            background-color: #EEF2F6;
+            border-color: #4338CA;
+        }
+
+        /* ABOUT COMPANY SPLIT BLOCK */
+        .about-grid-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 40px;
+        }
+        .about-text-column {
+            flex: 1;
+        }
+        .about-text-column h3 {
+            font-size: 16px;
+            font-weight: 700;
+            color: #0F172A;
+            margin-bottom: 12px;
+        }
+        .about-text-column p {
+            font-size: 14px;
+            color: #475569;
+            line-height: 1.6;
+        }
+        .about-vector-column {
+            width: 280px;
+            display: flex;
+            justify-content: center;
+        }
+        .about-vector-column svg {
+            width: 100%;
+            max-width: 240px;
+            height: auto;
+        }
+
+        /* THREE ROW INFRASTRUCTURE DETAIL COLS GRID */
+        .three-column-details-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        .detail-panel-box-card {
+            background-color: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .detail-panel-box-card h3 {
+            font-size: 15px;
+            font-weight: 700;
+            color: #0F172A;
+            margin-bottom: 16px;
+        }
+        .info-data-list-row {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 14px;
+            align-items: flex-start;
+        }
+        .info-data-list-row svg {
+            width: 16px;
+            height: 16px;
+            stroke: #64748B;
+            fill: none;
+            stroke-width: 2;
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+        .info-data-text-block label {
+            display: block;
+            font-size: 11px;
+            font-weight: 600;
+            color: #64748B;
+            text-transform: uppercase;
+            margin-bottom: 2px;
+        }
+        .info-data-text-block p {
+            font-size: 13px;
+            color: #1E293B;
+            font-weight: 500;
+            line-height: 1.4;
+        }
+        .info-data-text-block .subtext {
+            font-size: 11px;
+            color: #64748B;
+            margin-top: 1px;
+        }
+
+        /* STATISTICS ROW MATRIX COMPONENT */
+        .stats-matrix-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+        }
+        .stat-item-block-cradle {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .stat-icon-wrapper-frame {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .stat-icon-wrapper-frame svg {
+            width: 20px;
+            height: 20px;
+            stroke-width: 2;
+            fill: none;
+        }
+        .stat-txt-val-block h2 {
+            font-size: 24px;
+            font-weight: 800;
+            color: #0F172A;
+            line-height: 1.1;
+        }
+        .stat-txt-val-block p {
+            font-size: 11px;
+            color: #64748B;
+            font-weight: 600;
+            margin-top: 2px;
+        }
+
+        /* STAT CARD BRANDS CONFIGURATIONS */
+        .st-purple .stat-icon-wrapper-frame { background-color: #F5F3FF; }
+        .st-purple svg { stroke: #6366F1; }
+        .st-green .stat-icon-wrapper-frame { background-color: #F0FDF4; }
+        .st-green svg { stroke: #22C55E; }
+        .st-orange .stat-icon-wrapper-frame { background-color: #FFF7ED; }
+        .st-orange svg { stroke: #F97316; }
+        .st-blue .stat-icon-wrapper-frame { background-color: #EFF6FF; }
+        .st-blue svg { stroke: #3B82F6; }
+
+        /* VERIFIED DOCUMENTS LINE TRACK ENGINE */
+        .documents-rows-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 16px;
+        }
+        .doc-line-row-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 16px;
+            background-color: #F8FAFC;
+            border: 1px solid #E2E8F0;
+            border-radius: 10px;
+        }
+        .doc-left-meta {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        .doc-icon-frame {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .doc-icon-frame svg {
+            width: 18px;
+            height: 18px;
+            stroke-width: 2;
+            fill: none;
+        }
+        .doc-title-spec h4 {
+            font-size: 13px;
+            font-weight: 700;
+            color: #1E293B;
+        }
+        .doc-title-spec p {
+            font-size: 11px;
+            color: #64748B;
+            font-weight: 500;
+            margin-top: 1px;
+        }
+        .doc-right-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .doc-badge-status-p {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background-color: #DCFCE7;
+            color: #15803D;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 4px 8px;
+            border-radius: 6px;
+        }
+        .doc-badge-status-p svg {
+            width: 10px;
+            height: 10px;
+            fill: currentColor;
+        }
+        .btn-view-document {
+            background-color: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            color: #475569;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 6px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .btn-view-document:hover {
+            background-color: #F1F5F9;
+            color: #0F172A;
+        }
+
+        /* DOCUMENT BRAND SCHEMES */
+        .dc-green .doc-icon-frame { background-color: #E6F4EA; }
+        .dc-green svg { stroke: #137333; }
+        .dc-blue .doc-icon-frame { background-color: #E8F0FE; }
+        .dc-blue svg { stroke: #1A73E8; }
+        .dc-purple .doc-icon-frame { background-color: #F3E8FF; }
+        .dc-purple svg { stroke: #7A28CB; }
+    </style>
+</head>
+<body>
+
+    <!-- SIDEBAR NAVIGATION SYSTEM CODES -->
+    <aside>
+        <div class="sidebar-brand-box">
+            <svg viewBox="0 0 24 24">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+            </svg>
+            <span>Trust Hire</span>
+        </div>
+        <div class="sidebar-menu-scroller">
+            <a href="index.html" class="menu-item">
+                <div class="menu-item-left">
+                    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>
+                    <span>Home</span>
+                </div>
+            </a>
+            <a href="listing candidate.html" class="menu-item">
+                <div class="menu-item-left">
+                    <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                    <span>Search Candidates</span>
+                </div>
+            </a>
+            <a href="save.html" class="menu-item">
+                <div class="menu-item-left">
+                    <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    <span>Saved Candidates</span>
+                </div>
+            </a>
+            <a href="profile.html" class="menu-item">
+                <div class="menu-item-left">
+                    <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    <span>Candidate Profiles</span>
+                </div>
+            <a href="scoring.html" class="menu-item">
+                <div class="menu-item-left">
+                    <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    <span>Trust Score Method</span>
+                </div>
+            </a>
+            <a href="analitical.html" class="menu-item">
+                <div class="menu-item-left">
+                    <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                    <span>Analytics</span>
+                </div>
+            </a>
+            <a href="about.html" class="menu-item active">
+                <div class="menu-item-left">
+                    <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    <span>Company Profile</span>
+                </div>
+            </a>
+            <a href="notification.html" class="menu-item">
+                <div class="menu-item-left">
+                    <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                    <span>Notifications</span>
+                </div>
+                <span class="menu-badge">3</span>
+            </a>
+            <a href="billing.html" class="menu-item">
+                <div class="menu-item-left">
+                    <svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+                    <span>Billing</span>
+                </div>
+            </a>
+            <a href="settings.html" class="menu-item">
+                <div class="menu-item-left">
+                    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                    <span>Settings</span>
+                </div>
+            </a>
+        </div>
+        <div class="sidebar-footer">
+            <a href="#" class="menu-item">
+                <div class="menu-item-left">
+                    <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                    <span>Logout</span>
+                </div>
+            </a>
+        </div>
+    </aside>
+
+    <!-- MAIN RIGHT VIEW PANEL CONTENT AREA -->
+    <main>
+        <div class="workspace-top-bar">
+            <div class="top-title-area">
+                <h1>Company Profile</h1>
+                <p>Manage your company information and preferences</p>
+            </div>
+            <div class="top-user-controls">
+                <div class="notif-bell-trigger">
+                    <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                    <div class="bell-badge">3</div>
+                </div>
+                <div class="profile-dropdown-pill">
+                    <div class="avatar-circle">DN</div>
+                    <span>DNK Technologies</span>
+                    <small style="color:#64748B;">▼</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="workspace-content-canvas">
+            
+            <!-- IDENTITY PROFILE METRIC CONTROLLER BAR HERO CARD -->
+            <div class="content-card-board">
+                <div class="card-inner-flex">
+                    <div class="hero-info-left">
+                        <div class="company-big-logo">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                            </svg>
+                        </div>
+                        <div class="hero-text-details">
+                            <h2>DNK Technologies</h2>
+                            <div class="badge-verified-employer">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                                Verified Employer
+                            </div>
+                            <div class="stars-row">
+                                <span class="stars-gold">★★★★★</span>
+                                <strong>4.8/5</strong>
+                                <span>(95 Trust Score)</span>
+                            </div>
+                            <div class="meta-geo-strip">
+                                <div>
+                                    <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                                    Lagos, Nigeria
+                                </div>
+                                <div>
+                                    <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                                    11 – 50 Employees
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="hero-verification-side">
+                        <h4>Verification Status</h4>
+                        <div class="verification-checklist-item">
+                            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4"/></svg>
+                            Business Email Verified
+                        </div>
+                        <div class="verification-checklist-item">
+                            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4"/></svg>
+                            Phone Number Verified
+                        </div>
+                        <div class="verification-checklist-item">
+                            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4"/></svg>
+                            Business Registration Verified
+                        </div>
+                        <div class="verification-checklist-item">
+                            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4"/></svg>
+                            Identity Verified
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ABOUT DETAILED DESCRIPTION ROW BOX -->
+            <div class="content-card-board">
+                <div class="about-grid-content">
+                    <div class="about-text-column">
+                        <h3>About Company</h3>
+                        <p>We are a fast-growing software development company building innovative digital solutions for businesses across Africa and beyond. We are passionate about technology and constantly looking for top verified talent to join our mission.</p>
+                        <button class="btn-outline-action">
+                            <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4z"/></svg>
+                            Edit About Us
+                        </button>
+                    </div>
+                    <div class="about-vector-column">
+                        <!-- Custom Inline Minimalist Architectural Tech Graphic Replicating Image Context -->
+                        <svg viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="20" y="70" width="25" height="40" fill="#E2E8F0"/>
+                            <rect x="50" y="30" width="45" height="80" fill="#818CF8"/>
+                            <rect x="100" y="50" width="35" height="60" fill="#C7D2FE"/>
+                            <rect x="140" y="65" width="25" height="45" fill="#E2E8F0"/>
+                            <!-- Windows lines -->
+                            <line x1="60" y1="40" x2="85" y2="40" stroke="#FFF" stroke-width="2" stroke-dasharray="2 2"/>
+                            <line x1="60" y1="55" x2="85" y2="55" stroke="#FFF" stroke-width="2" stroke-dasharray="2 2"/>
+                            <line x1="60" y1="70" x2="85" y2="70" stroke="#FFF" stroke-width="2" stroke-dasharray="2 2"/>
+                            <line x1="110" y1="60" x2="125" y2="60" stroke="#FFF" stroke-width="2" stroke-dasharray="2 2"/>
+                            <line x1="110" y1="75" x2="125" y2="75" stroke="#FFF" stroke-width="2" stroke-dasharray="2 2"/>
+                            <circle cx="15" cy="85" r="4" fill="#CBD5E1"/>
+                            <circle cx="180" cy="80" r="6" fill="#CBD5E1"/>
+                            <line x1="0" y1="110" x2="200" y2="110" stroke="#94A3B8" stroke-width="2"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- THREE COLUMN DETAILS PARAMETER CHIP MATRIX GRID -->
+            <div class="three-column-details-grid">
+                
+                <!-- Col 1: Contacts -->
+                <div class="detail-panel-box-card">
+                    <div>
+                        <h3>Contact Information</h3>
+                        <div class="info-data-list-row">
+                            <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                            <div class="info-data-text-block">
+                                <label>Email Address</label>
+                                <p>hello@dnktech.com</p>
+                            </div>
+                        </div>
+                        <div class="info-data-list-row">
+                            <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                            <div class="info-data-text-block">
+                                <label>Phone Number</label>
+                                <p>+234 812 345 6789</p>
+                            </div>
+                        </div>
+                        <div class="info-data-list-row">
+                            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                            <div class="info-data-text-block">
+                                <label>Website</label>
+                                <p>www.dnktech.com</p>
+                            </div>
+                        </div>
+                        <div class="info-data-list-row">
+                            <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                            <div class="info-data-text-block">
+                                <label>WhatsApp Contact</label>
+                                <p>+234 812 345 6789</p>
+                                <span class="subtext">(WhatsApp Business)</span>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn-outline-action">
+                        <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4z"/></svg>
+                        Edit Contact Info
+                    </button>
+                </div>
+
+                <!-- Col 2: Locations -->
+                <div class="detail-panel-box-card">
+                    <div>
+                        <h3>Location</h3>
+                        <div class="info-data-list-row">
+                            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                            <div class="info-data-text-block">
+                                <label>Country</label>
+                                <p>Nigeria</p>
+                            </div>
+                        </div>
+                        <div class="info-data-list-row">
+                            <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                            <div class="info-data-text-block">
+                                <label>State</label>
+                                <p>Lagos State</p>
+                            </div>
+                        </div>
+                        <div class="info-data-list-row">
+                            <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                            <div class="info-data-text-block">
+                                <label>City</label>
+                                <p>Lagos</p>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn-outline-action">
+                        <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4z"/></svg>
+                        Edit Location
+                    </button>
+                </div>
+
+                <!-- Col 3: Preferences -->
+                <div class="detail-panel-box-card">
+                    <div>
+                        <h3>Hiring Preferences</h3>
+                        <div class="info-data-list-row">
+                            <svg viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+                            <div class="info-data-text-block">
+                                <label>Preferred Skills</label>
+                                <p>JavaScript, React, Node.js, UI/UX Design, Python</p>
+                            </div>
+                        </div>
+                        <div class="info-data-list-row">
+                            <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+                            <div class="info-data-text-block">
+                                <label>Experience Level</label>
+                                <p>Mid-level, Senior-level</p>
+                            </div>
+                        </div>
+                        <div class="info-data-list-row">
+                            <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                            <div class="info-data-text-block">
+                                <label>Work Type</label>
+                                <p>Remote, Hybrid</p>
+                            </div>
+                        </div>
+                        <div class="info-data-list-row">
+                            <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                            <div class="info-data-text-block">
+                                <label>Job Type</label>
+                                <p>Full-time, Contract</p>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn-outline-action">
+                        <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4z"/></svg>
+                        Edit Preferences
+                    </button>
+                </div>
+            </div>
+
+            <!-- STATISTICS BOARD BLOCK ROW -->
+            <div class="content-card-board">
+                <h3 style="font-size:15px; font-weight:700; margin-bottom:20px;">Company Statistics</h3>
+                <div class="stats-matrix-grid">
+                    
+                    <div class="stat-item-block-cradle st-purple">
+                        <div class="stat-icon-wrapper-frame">
+                            <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                        </div>
+                        <div class="stat-txt-val-block">
+                            <h2>128</h2>
+                            <p>Candidates Contacted</p>
+                        </div>
+                    </div>
+
+                    <div class="stat-item-block-cradle st-green">
+                        <div class="stat-icon-wrapper-frame">
+                            <svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><polyline points="17 11 19 13 23 9"/></svg>
+                        </div>
+                        <div class="stat-txt-val-block">
+                            <h2>23</h2>
+                            <p>Candidates Hired</p>
+                        </div>
+                    </div>
+
+                    <div class="stat-item-block-cradle st-orange">
+                        <div class="stat-icon-wrapper-frame">
+                            <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+                        </div>
+                        <div class="stat-txt-val-block">
+                            <h2>5</h2>
+                            <p>Active Searches</p>
+                        </div>
+                    </div>
+
+                    <div class="stat-item-block-cradle st-blue">
+                        <div class="stat-icon-wrapper-frame">
+                            <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                        </div>
+                        <div class="stat-txt-val-block">
+                            <h2>4.8<span style="font-size:16px; font-weight:600; color:#64748B;">/5</span></h2>
+                            <p>Employer Rating</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- DOCUMENTS & VERIFICATION ROW ARRAYS -->
+            <div class="content-card-board">
+                <h3 style="font-size:15px; font-weight:700;">Documents & Verification</h3>
+                <div class="documents-rows-stack">
+                    
+                    <!-- Row 1 -->
+                    <div class="doc-line-row-item dc-green">
+                        <div class="doc-left-meta">
+                            <div class="doc-icon-frame">
+                                <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                            </div>
+                            <div class="doc-title-spec">
+                                <h4>CAC Certificate</h4>
+                                <p>Business Registration Document</p>
+                            </div>
+                        </div>
+                        <div class="doc-right-actions">
+                            <div class="doc-badge-status-p">
+                                <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                                Verified
+                            </div>
+                            <button class="btn-view-document">View Document</button>
+                        </div>
+                    </div>
+
+                    <!-- Row 2 -->
+                    <div class="doc-line-row-item dc-blue">
+                        <div class="doc-left-meta">
+                            <div class="doc-icon-frame">
+                                <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                            </div>
+                            <div class="doc-title-spec">
+                                <h4>Tax Identification Number (TIN)</h4>
+                                <p>Tax Compliance Document</p>
+                            </div>
+                        </div>
+                        <div class="doc-right-actions">
+                            <div class="doc-badge-status-p">
+                                <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                                Verified
+                            </div>
+                            <button class="btn-view-document">View Document</button>
+                        </div>
+                    </div>
+
+                    <!-- Row 3 -->
+                    <div class="doc-line-row-item dc-purple">
+                        <div class="doc-left-meta">
+                            <div class="doc-icon-frame">
+                                <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                            </div>
+                            <div class="doc-title-spec">
+                                <h4>Business License</h4>
+                                <p>Operating License</p>
+                            </div>
+                        </div>
+                        <div class="doc-right-actions">
+                            <div class="doc-badge-status-p">
+                                <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                                Verified
+                            </div>
+                            <button class="btn-view-document">View Document</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+</body>
+</html>

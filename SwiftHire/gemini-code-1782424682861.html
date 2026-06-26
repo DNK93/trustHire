@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Swift Hire - Billing</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: #f1f5f9; color: #1e293b; display: flex; min-height: 100vh; }
+        
+        .sidebar { width: 260px; background: #131926; flex-shrink: 0; min-height: 100vh; color: white; padding: 20px; }
+        .logo-area { font-size: 22px; font-weight: 700; margin-bottom: 40px; color: #fff; }
+        .nav-links { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+        .nav-item { padding: 12px 16px; border-radius: 8px; color: #94a3b8; font-weight: 500; cursor: pointer; text-decoration: none; display: block; }
+        .nav-item.active { background: #1e293b; color: white; }
+
+        .view-wrapper { flex-grow: 1; display: flex; flex-direction: column; }
+
+        /* EXACT TOP BAR HEADER FROM VIDEO */
+        .top-navbar { height: 65px; background: #1a2233; display: flex; justify-content: space-between; align-items: center; padding: 0 30px; color: white; border-bottom: 1px solid #2d3748; }
+        .page-title-tag { font-size: 14px; font-weight: 700; letter-spacing: 1px; color: #94a3b8; text-transform: uppercase; }
+        .header-actions-right { display: flex; align-items: center; gap: 20px; }
+        .icon-badge-btn { background: none; border: none; font-size: 18px; color: #94a3b8; cursor: pointer; position: relative; }
+        .icon-badge-btn .dot { position: absolute; top: -2px; right: -2px; width: 8px; height: 8px; background: #ef4444; border-radius: 50%; }
+        .user-dropdown-profile { display: flex; align-items: center; gap: 10px; cursor: pointer; background: #242f47; padding: 6px 14px; border-radius: 20px; font-size: 14px; font-weight: 600; }
+
+        .page-body-content { padding: 30px; max-width: 1200px; width: 100%; margin: 0 auto; }
+        
+        /* Balance Panel layout */
+        .balance-hero-row { background: white; border-radius: 12px; padding: 24px; border: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .balance-label { color: #64748b; font-size: 13px; font-weight: 600; margin-bottom: 4px; text-transform: uppercase; }
+        .balance-qty { font-size: 32px; font-weight: 700; color: #0f172a; }
+        
+        /* Pricing Matrix Grid */
+        .section-headline { font-size: 16px; margin-bottom: 16px; color: #1e293b; font-weight: 700; }
+        .pricing-matrix { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-bottom: 40px; }
+        .matrix-box { background: white; border: 1px solid #e2e8f0; border-radius: 12px; padding: 24px; text-align: center; position: relative; }
+        .matrix-box.featured { border: 2px solid #4f46e5; }
+        .featured-tag { background: #4f46e5; color: white; font-size: 10px; font-weight: 700; text-transform: uppercase; padding: 4px 12px; border-radius: 20px; position: absolute; top: -11px; left: 50%; transform: translateX(-50%); }
+        .pack-title { font-size: 14px; color: #64748b; font-weight: 600; margin-bottom: 10px; }
+        .pack-volume { font-size: 26px; font-weight: 700; color: #0f172a; margin-bottom: 6px; }
+        .pack-cost { font-size: 18px; color: #334155; font-weight: 600; margin-bottom: 20px; }
+        .purchase-action-btn { background: #1e293b; color: white; border: none; padding: 10px 24px; width: 100%; border-radius: 8px; font-weight: 600; cursor: pointer; }
+        .matrix-box.featured .purchase-action-btn { background: #4f46e5; }
+
+        /* Document Log Table */
+        .log-table-wrapper { background: white; border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        table { width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; }
+        th { background: #f8fafc; color: #64748b; padding: 16px; font-weight: 600; border-bottom: 1px solid #e2e8f0; text-transform: uppercase; font-size: 12px; }
+        td { padding: 16px; border-bottom: 1px solid #f1f5f9; color: #334155; }
+        .badge-status-paid { padding: 4px 8px; background: #dcfce7; color: #15803d; border-radius: 6px; font-size: 12px; font-weight: 600; }
+        .pdf-anchor { color: #4f46e5; text-decoration: none; font-weight: 600; }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <div class="logo-area">✨ Swift Hire</div>
+        <ul class="nav-links">
+            <a href="#" class="nav-item">Dashboard</a>
+            <a href="#" class="nav-item">Search Candidates</a>
+            <a href="#" class="nav-item">Saved Candidates</a>
+            <a href="#" class="nav-item">Analytics</a>
+            <a href="#" class="nav-item">Company Profile</a>
+            <a href="#" class="nav-item">Notifications</a>
+            <a href="#" class="nav-item active">Billing</a>
+        </ul>
+    </div>
+
+    <div class="view-wrapper">
+        
+        <!-- EXACT TOP BAR HEADER FROM VIDEO -->
+        <div class="top-navbar">
+            <div class="page-title-tag">Billing Ecosystem</div>
+            <div class="header-actions-right">
+                <button class="icon-badge-btn">🔔<span class="dot"></span></button>
+                <button class="icon-badge-btn">💬</button>
+                <div class="user-dropdown-profile">
+                    <span>DNK Official</span>
+                    <span>▼</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="page-body-content">
+            <!-- Account Summary -->
+            <div class="balance-hero-row">
+                <div>
+                    <div class="balance-label">Current Credit Count</div>
+                    <div class="balance-qty">45 Tokens Available</div>
+                </div>
+            </div>
+
+            <!-- Top up Packages -->
+            <h2 class="section-headline">Reload Token Balance</h2>
+            <div class="pricing-matrix">
+                <div class="matrix-box">
+                    <div class="pack-title">Starter</div>
+                    <div class="pack-volume">10 Credits</div>
+                    <div class="pack-cost">₦15,000</div>
+                    <button class="purchase-action-btn">Buy Tokens</button>
+                </div>
+                <div class="matrix-box featured">
+                    <div class="featured-tag">Recommended</div>
+                    <div class="pack-title">Scale Pack</div>
+                    <div class="pack-volume">50 Credits</div>
+                    <div class="pack-cost">₦60,000</div>
+                    <button class="purchase-action-btn">Buy Tokens</button>
+                </div>
+                <div class="matrix-box">
+                    <div class="pack-title">Enterprise</div>
+                    <div class="pack-volume">120 Credits</div>
+                    <div class="pack-cost">₦120,000</div>
+                    <button class="purchase-action-btn">Buy Tokens</button>
+                </div>
+            </div>
+
+            <!-- Table Receipts Log -->
+            <h2 class="section-headline">Transaction Invoices</h2>
+            <div class="log-table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date Ordered</th>
+                            <th>Description</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                            <th>Receipt</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>May 24, 2026</td>
+                            <td>Purchased Scale Pack (50 Tokens)</td>
+                            <td>₦60,000</td>
+                            <td><span class="badge-status-paid">Settled</span></td>
+                            <td><a href="#" class="pdf-anchor">View PDF</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trust Hire - Candidate Management</title>
+    <style>
+        /* BASE RESET & TYPOGRAPHY */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #F8FAFC;
+            color: #334155;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* LAYOUT ARCHITECTURE */
+       aside {
+            width: 260px;
+             background-color: #051129;
+            color: #94A3B8;
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+            height: 100%;
+        }
+        .sidebar-brand-box {
+            padding: 24px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #FFFFFF;
+            font-size: 20px;
+            font-weight: 700;
+        }
+        .sidebar-brand-box svg {
+            width: 28px;
+            height: 28px;
+            fill: #6366F1;
+        }
+        .sidebar-menu-scroller {
+            flex: 1;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            overflow-y: auto;
+        }
+        .menu-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            color: #94A3B8;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+        .menu-item-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .menu-item svg {
+            width: 18px;
+            height: 18px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+        }
+        .menu-item:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            color: #F8FAFC;
+        }
+        .menu-item.active {
+            background-color: #1E293B;
+            color: #A5B4FC;
+            font-weight: 600;
+            box-shadow: inset 4px 0 0 #6366F1;
+        }
+        .menu-badge {
+            background-color: #4338CA;
+            color: #FFFFFF;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 10px;
+        }
+        .sidebar-footer {
+            padding: 16px 12px;
+            border-top: 1px solid #1E293B;
+        }
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            overflow: hidden;
+        }
+        .scroll-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px;
+        }
+        .stack-spacing {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        /* SIDEBAR NAVIGATION PANEL */
+        .sidebar-wrap {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            height: 100%;
+        }
+        .logo-section {
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .logo-box {
+            width: 28px;
+            height: 28px;
+            background-color: #4F46E5;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 14px;
+        }
+        .logo-text {
+            font-weight: 700;
+            color: #ffffff;
+            font-size: 16px;
+            letter-spacing: 0.5px;
+        }
+        nav {
+            flex: 1;
+            padding: 8px 12px;
+            overflow-y: auto;
+        }
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 16px;
+            border-radius: 8px;
+            color: #cbd5e1;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+        .nav-item:hover {
+            background-color: rgba(30, 41, 59, 0.4);
+            color: #ffffff;
+        }
+        .nav-item.active {
+            background-color: rgba(79, 70, 229, 0.9);
+            color: #ffffff;
+            font-weight: 600;
+        }
+        .sidebar-footer {
+            padding: 12px;
+            border-top: 1px solid rgba(30, 41, 59, 0.6);
+        }
+        .logout-btn {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 16px;
+            border-radius: 8px;
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .logout-btn:hover {
+            background-color: rgba(127, 29, 29, 0.2);
+            color: #f87171;
+        }
+
+        /* TOP GLOBAL HEADER STRIP */
+        header {
+            background-color: #051129;
+            color: #ffffff;
+            padding: 24px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        
+            flex-shrink: 0;
+        }
+        header h1 {
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .icon-btn {
+            background: none;
+            border: none;
+            color: #94a3b8;
+            cursor: pointer;
+            padding: 4px;
+            font-size: 16px;
+        }
+        .icon-btn:hover {
+            color: #ffffff;
+        }
+        .user-profile-trigger {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding-left: 8px;
+            border-left: 1px solid #1e293b;
+        }
+        .user-avatar-circle {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background-color: #d97706;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 10px;
+            color: #ffffff;
+        }
+        .user-meta {
+            text-align: left;
+        }
+        .user-name {
+            font-size: 12px;
+            font-weight: 600;
+            color: #e2e8f0;
+            line-height: 1;
+        }
+        .user-role {
+            font-size: 9px;
+            color: #94a3b8;
+            line-height: 1;
+            margin-top: 2px;
+        }
+
+        /* CARD MAIN MODULE CONTAINERS */
+        .card {
+            background-color: #ffffff;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+
+        /* LOWER SEAMLESSLY MERGED DASHBOARD COMPONENTS */
+        .filter-block {
+            padding: 20px;
+            background-color: #ffffff;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        .search-bar-row {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        .search-input-wrapper {
+            flex: 1;
+        }
+        .search-input-wrapper input {
+            width: 100%;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-size: 12px;
+            color: #334155;
+            outline: none;
+        }
+        .search-input-wrapper input:focus {
+            border-color: #4F46E5;
+        }
+        .inline-filter-btn {
+            border: 1px solid #e2e8f0;
+            background-color: #ffffff;
+            color: #475569;
+            font-size: 12px;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .inline-filter-btn:hover {
+            background-color: #f8fafc;
+        }
+        .filter-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 16px;
+        }
+        @media (max-width: 640px) {
+            .filter-grid {
+                grid-template-columns: repeat(1, minmax(0, 1fr));
+            }
+        }
+        .input-group label {
+            display: block;
+            font-size: 10px;
+            font-weight: 700;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+        .input-group select {
+            width: 100%;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 8px;
+            font-size: 12px;
+            background-color: #ffffff;
+            color: #334155;
+            outline: none;
+        }
+        .input-group select:focus {
+            border-color: #4F46E5;
+        }
+
+        /* CUSTOM RANGE SLIDER COMPONENT */
+        .slider-control {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            height: 32px;
+        }
+        .slider-bound-text {
+            font-size: 10px;
+            font-weight: 600;
+            color: #64748b;
+        }
+        .slider-track-mock {
+            position: relative;
+            width: 100%;
+            display: flex;
+            align-items: center;
+        }
+        .slider-line-fill {
+            height: 4px;
+            background-color: #4F46E5;
+            border-radius: 9999px;
+            width: 100%;
+        }
+        .slider-thumb-handle {
+            position: absolute;
+            right: 0;
+            width: 12px;
+            height: 12px;
+            background-color: #4F46E5;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+
+        /* SEARCH ACTION CONSOLE FOOTER */
+        .search-actions-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-top: 1px solid #f1f5f9;
+            padding-top: 12px;
+            margin-top: 8px;
+        }
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            color: #475569;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        .checkbox-container input {
+            border-radius: 4px;
+            border-color: #cbd5e1;
+            width: 14px;
+            height: 14px;
+            cursor: pointer;
+        }
+        .actions-btn-group {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .clear-filters-link {
+            font-size: 12px;
+            font-weight: 600;
+            color: #4F46E5;
+            background: none;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .clear-filters-link:hover {
+            text-decoration: underline;
+        }
+        .primary-search-submit {
+            background-color: #4F46E5;
+            color: #ffffff;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 8px 20px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+        .primary-search-submit:hover {
+            background-color: #4338ca;
+        }
+
+        /* DATATABLE LISTING */
+        .responsive-table-wrapper {
+            overflow-x: auto;
+        }
+        table {
+            width: 100%;
+            text-align: left;
+            font-size: 12px;
+            border-collapse: collapse;
+        }
+        thead tr {
+            background-color: rgba(248, 250, 252, 0.7);
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 700;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        th, td {
+            padding: 16px;
+        }
+        th:first-child, td:first-child {
+            padding-left: 20px;
+        }
+        th:last-child, td:last-child {
+            padding-right: 20px;
+            text-align: right;
+        }
+        tbody tr {
+            border-bottom: 1px solid #f1f5f9;
+            color: #334155;
+            font-weight: 500;
+        }
+        tbody tr:hover {
+            background-color: rgba(248, 250, 252, 0.5);
+        }
+        .table-profile-cell {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .table-avatar-placeholder {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background-color: #f1f5f9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 10px;
+            color: #475569;
+        }
+        .table-candidate-name {
+            font-weight: 600;
+            color: #0f172a;
+        }
+        .text-muted-gray {
+            color: #64748b;
+        }
+        .text-bold-dark {
+            font-weight: 700;
+            color: #0f172a;
+        }
+        .action-cell-btn {
+            border: 1px solid #e2e8f0;
+            color: #4F46E5;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 6px;
+            background-color: #ffffff;
+            cursor: pointer;
+        }
+        .action-cell-btn:hover {
+            background-color: #f5f3ff;
+        }
+
+        /* CANDIDATE PROFILE PREVIEW */
+        .preview-profile-grid {
+            padding: 24px;
+            display: grid;
+            grid-template-columns: repeat(12, minmax(0, 1fr));
+            gap: 32px;
+            align-items: start;
+        }
+        @media (max-width: 768px) {
+            .preview-profile-grid {
+                grid-template-columns: repeat(1, minmax(0, 1fr));
+            }
+            .preview-left-box, .preview-right-box {
+                grid-column: span 12 / span 12 !important;
+            }
+        }
+        .preview-left-box {
+            grid-column: span 5 / span 5;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .preview-right-box {
+            grid-column: span 7 / span 7;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        /* PROFILE LEFT HEADER METRICS */
+        .avatar-header-block {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .avatar-frame-wrapper {
+            position: relative;
+            flex-shrink: 0;
+        }
+        .avatar-fallback-box {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background-color: #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: #475569;
+            font-size: 18px;
+            border: 2px solid #f1f5f9;
+        }
+        .status-dot-active {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 16px;
+            height: 16px;
+            background-color: #10b981;
+            border: 2px solid #ffffff;
+            border-radius: 50%;
+        }
+        .name-meta-wrap .title-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .name-meta-wrap h2 {
+            font-size: 18px;
+            font-weight: 800;
+            color: #0f172a;
+            line-height: 1.2;
+        }
+        .badge-verified {
+            background-color: #ecfdf5;
+            color: #059669;
+            font-size: 9px;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: inline-flex;
+            align-items: center;
+            gap: 2px;
+        }
+        .badge-verified::before {
+            content: "✓";
+            font-weight: 900;
+        }
+        .sub-profession-text {
+            font-size: 12px;
+            color: #94a3b8;
+            font-weight: 500;
+            margin-top: 2px;
+        }
+
+        /* TRUST SCORE GRAPHIC INDICATOR BAR */
+        .trust-score-component {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .trust-score-labels {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            font-weight: 600;
+            color: #64748b;
+        }
+        .trust-score-labels .score-val {
+            color: #0f172a;
+        }
+        .trust-score-meter-bg {
+            width: 100%;
+            background-color: #f1f5f9;
+            height: 8px;
+            border-radius: 9999px;
+            overflow: hidden;
+            position: relative;
+        }
+        .trust-score-meter-fill {
+            background-color: #10b981;
+            height: 100%;
+            border-radius: 9999px;
+        }
+
+        /* KEY-VALUE PROFILE SPECS GRID */
+        .metadata-fields-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding-top: 8px;
+            font-size: 12px;
+        }
+        .meta-field-item {
+            display: flex;
+            justify-content: space-between;
+        }
+        .meta-field-label {
+            color: #94a3b8;
+            font-weight: 500;
+        }
+        .meta-field-value {
+            font-weight: 600;
+            color: #334155;
+        }
+        .meta-field-value.highlight-link {
+            color: #4F46E5;
+        }
+
+        /* TABBED PROFILE INTERFACE BAR */
+        .profile-tabs-header-bar {
+            border-bottom: 1px solid #f1f5f9;
+            display: flex;
+            gap: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #94a3b8;
+            overflow-x: auto;
+            white-space: nowrap;
+            padding-bottom: 2px;
+        }
+        .profile-tab-link {
+            text-decoration: none;
+            color: #94a3b8;
+            padding-bottom: 8px;
+        }
+        .profile-tab-link.active-tab {
+            color: #4F46E5;
+            border-bottom: 2px solid #4F46E5;
+            padding-bottom: 8px;
+        }
+        .profile-tab-link:hover:not(.active-tab) {
+            color: #334155;
+        }
+        .bio-description-para {
+            font-size: 12px;
+            color: #475569;
+            line-height: 1.6;
+            font-weight: 500;
+        }
+
+        /* SKILLS CHIP BADGES WRAP */
+        .skills-section-block {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .skills-section-block h3 {
+            font-size: 12px;
+            font-weight: 700;
+            color: #1e293b;
+            letter-spacing: -0.2px;
+        }
+        .chips-cloud-flex {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+        .skill-chip-badge {
+            background-color: #f8fafc;
+            color: #334155;
+            border: 1px solid #f1f5f9;
+            font-size: 10px;
+            font-weight: 500;
+            padding: 4px 10px;
+            border-radius: 6px;
+        }
+
+        /* ACTION ENGAGEMENT CTA MODULE BUTTON */
+        .cta-action-container {
+            padding-top: 8px;
+        }
+        .cta-primary-action-btn {
+            width: 100%;
+            background-color: #4F46E5;
+            color: #ffffff;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 10px 0;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            letter-spacing: 0.2px;
+        }
+        .cta-primary-action-btn:hover {
+            background-color: #4338ca;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- LEFT SIDEBAR NAVIGATION PANEL -->
+      <aside>
+        <div class="sidebar-brand-box">
+            <svg viewBox="0 0 24 24">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+            </svg>
+            <span>Trust Hire</span>
+        </div>
+        <div class="sidebar-menu-scroller">
+            <a href="index.html" class="menu-item">
+                <div class="menu-item-left">
+                    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>
+                    <span>Home</span>
+                </div>
+            </a>
+            <a href="listing candidate.html" class="menu-item">
+                <div class="menu-item-left">
+                    <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                    <span>Search Candidates</span>
+                </div>
+            </a>
+            <a href="save.html" class="menu-item">
+                <div class="menu-item-left">
+                    <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    <span>Saved Candidates</span>
+                </div>
+            </a>
+            <a href="profile.html" class="menu-item active">
+                <div class="menu-item-left">
+                    <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    <span>Candidate Profiles</span>
+                </div>
+            </a>
+            <a href="scoring.html" class="menu-item">
+                <div class="menu-item-left">
+                    <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    <span>Trust Score Method</span>
+                </div>
+            </a>
+            <a href="analitical.html" class="menu-item">
+                <div class="menu-item-left">
+                    <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                    <span>Analytics</span>
+                </div>
+            </a>
+            <a href="about.html" class="menu-item ">
+                <div class="menu-item-left">
+                    <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    <span>Company Profile</span>
+                </div>
+            </a>
+            <a href="notification.html" class="menu-item">
+                <div class="menu-item-left">
+                    <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                    <span>Notifications</span>
+                </div>
+                <span class="menu-badge">3</span>
+            </a>
+            <a href="billing.html" class="menu-item">
+                <div class="menu-item-left">
+                    <svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+                    <span>Billing</span>
+                </div>
+            </a>
+            <a href="settings.html" class="menu-item">
+                <div class="menu-item-left">
+                    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                    <span>Settings</span>
+                </div>
+            </a>
+        </div>
+        <div class="sidebar-footer">
+            <a href="#" class="menu-item">
+                <div class="menu-item-left">
+                    <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                    <span>Logout</span>
+                </div>
+            </a>
+        </div>
+    </aside>
+
+    <!-- MAIN INTERFACE BODY CONTAINER -->
+    <main>
+        
+        <!-- Top Application Header Strip -->
+        <header>
+            <h1>Candidate Profile</h1>
+            <div class="header-actions">
+                <button class="icon-btn">🔔</button>
+                <button class="icon-btn">✉️</button>
+                <div class="user-profile-trigger">
+                    <div class="user-avatar-circle">
+                        <span>DNK</span>
+                    </div>
+                    <div class="user-meta">
+                        <p class="user-name">DNK Official</p>
+                        <span class="user-role">Employer</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Workspace Scrollable Container Area -->
+        <div class="scroll-container">
+            <div class="stack-spacing">
+
+                <!-- CONNECTED SEAMLESS FILTER SEARCH & LISTING CONTAINER BLOCK -->
+               
+                              
+
+                    <!-- Lower Connected Table List Block -->
+                   
+                            
+
+                <!-- PROFILE PREVIEW PREVIEW CONTAINER MODULE -->
+                <div class="card preview-profile-grid">
+                    
+                    <!-- Profile Card Left Column Panel Detail Specs -->
+                    <div class="preview-left-box">
+                        <div class="avatar-header-block">
+                            <!-- Avatar Structural Frame Wrapper with Mock Status Indicator Ring -->
+                            <div class="avatar-frame-wrapper">
+                                <div class="avatar-fallback-box">EB</div>
+                                <span class="status-dot-active"></span>
+                            </div>
+                            <div class="name-meta-wrap">
+                                <div class="title-row">
+                                    <h2>Esther Blessing</h2>
+                                    <span class="badge-verified">Verified</span>
+                                </div>
+                                <p class="sub-profession-text">Secondary School Teacher</p>
+                            </div>
+                        </div>
+
+                        <!-- Trust Score Structural Indicator Metric Bar Graph Component -->
+                        <div class="trust-score-component">
+                            <div class="trust-score-labels">
+                                <span>Trust Score</span>
+                                <span class="score-val">88/100</span>
+                            </div>
+                            <div class="trust-score-meter-bg">
+                                <div class="trust-score-meter-fill" style="width: 88%;"></div>
+                            </div>
+                        </div>
+
+                        <!-- Left Profile Metadata Meta-fields Lists Rows Layout -->
+                        <div class="metadata-fields-list">
+                            <div class="meta-field-item">
+                                <span class="meta-field-label">Location</span>
+                                <span class="meta-field-value">Lagos, Nigeria</span>
+                            </div>
+                            <div class="meta-field-item">
+                                <span class="meta-field-label">Experience</span>
+                                <span class="meta-field-value">5 years</span>
+                            </div>
+                            <div class="meta-field-item">
+                                <span class="meta-field-label">Level</span>
+                                <span class="meta-field-value">Advanced</span>
+                            </div>
+                            <div class="meta-field-item">
+                                <span class="meta-field-label">Availability</span>
+                                <span class="meta-field-value highlight-link">Available Now</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Profile Card Right Tabular and Content Panel -->
+                    <div class="preview-right-box">
+                        <!-- Replicated Horizontal Modules Navbar Tabs Selection Bar -->
+                        <div class="profile-tabs-header-bar">
+                            <a href="#" class="profile-tab-link active-tab">About</a>
+                            <a href="#" class="profile-tab-link">Experience</a>
+                            <a href="#" class="profile-tab-link">Education</a>
+                            <a href="#" class="profile-tab-link">Skills</a>
+                            <a href="#" class="profile-tab-link">Certificates</a>
+                            <a href="#" class="profile-tab-link">References</a>
+                        </div>
+
+                        <!-- Text Area Bio Description Summary Paragraph Description Component -->
+                        <p class="bio-description-para">
+                            A dedicated and passionate teacher with proven experience in delivering quality education and fostering student success.
+                        </p>
+
+                        <!-- Top Technical Skills Chip Cloud Group Section -->
+                        <div class="skills-section-block">
+                            <h3>Top Skills</h3>
+                            <div class="chips-cloud-flex">
+                                <span class="skill-chip-badge">Classroom Management</span>
+                                <span class="skill-chip-badge">Communication</span>
+                                <span class="skill-chip-badge">Lesson Planning</span>
+                                <span class="skill-chip-badge">Teaching</span>
+                                <span class="skill-chip-badge">Student Engagement</span>
+                            </div>
+                        </div>
+
+                        <!-- Engagement Module Core CTA Request Action Trigger Button Row -->
+                        <div class="cta-action-container">
+                            <button class="cta-primary-action-btn">
+                                Request Interview (1 Credit)
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+
+<div class="card preview-profile-grid">
+                    
+                    <!-- Profile Card Left Column Panel Detail Specs -->
+                    <div class="preview-left-box">
+                        <div class="avatar-header-block">
+                            <!-- Avatar Structural Frame Wrapper with Mock Status Indicator Ring -->
+                            <div class="avatar-frame-wrapper">
+                                <div class="avatar-fallback-box">EB</div>
+                                <span class="status-dot-active"></span>
+                            </div>
+                            <div class="name-meta-wrap">
+                                <div class="title-row">
+                                    <h2>George Willams</h2>
+                                    <span class="badge-verified">Verified</span>
+                                </div>
+                                <p class="sub-profession-text">Eletrician</p>
+                            </div>
+                        </div>
+
+                        <!-- Trust Score Structural Indicator Metric Bar Graph Component -->
+                        <div class="trust-score-component">
+                            <div class="trust-score-labels">
+                                <span>Trust Score</span>
+                                <span class="score-val">88/100</span>
+                            </div>
+                            <div class="trust-score-meter-bg">
+                                <div class="trust-score-meter-fill" style="width: 88%;"></div>
+                            </div>
+                        </div>
+
+                        <!-- Left Profile Metadata Meta-fields Lists Rows Layout -->
+                        <div class="metadata-fields-list">
+                            <div class="meta-field-item">
+                                <span class="meta-field-label">Location</span>
+                                <span class="meta-field-value">Ibandon, Nigeria</span>
+                            </div>
+                            <div class="meta-field-item">
+                                <span class="meta-field-label">Experience</span>
+                                <span class="meta-field-value">6 years</span>
+                            </div>
+                            <div class="meta-field-item">
+                                <span class="meta-field-label">Level</span>
+                                <span class="meta-field-value">Advanced</span>
+                            </div>
+                            <div class="meta-field-item">
+                                <span class="meta-field-label">Availability</span>
+                                <span class="meta-field-value highlight-link">Available Now</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Profile Card Right Tabular and Content Panel -->
+                    <div class="preview-right-box">
+                        <!-- Replicated Horizontal Modules Navbar Tabs Selection Bar -->
+                        <div class="profile-tabs-header-bar">
+                            <a href="#" class="profile-tab-link active-tab">About</a>
+                            <a href="#" class="profile-tab-link">Experience</a>
+                            <a href="#" class="profile-tab-link">Education</a>
+                            <a href="#" class="profile-tab-link">Skills</a>
+                            <a href="#" class="profile-tab-link">Certificates</a>
+                            <a href="#" class="profile-tab-link">References</a>
+                        </div>
+
+                        <!-- Text Area Bio Description Summary Paragraph Description Component -->
+                        <p class="bio-description-para">
+                            A dedicated and passionate Eletrician with proven experience in delivering quality funtionalty and faster Repairs.
+                        </p>
+
+                        <!-- Top Technical Skills Chip Cloud Group Section -->
+                        <div class="skills-section-block">
+                            <h3>Top Skills</h3>
+                            <div class="chips-cloud-flex">
+                                <span class="skill-chip-badge">Classroom Management</span>
+                                <span class="skill-chip-badge">Communication</span>
+                                <span class="skill-chip-badge">Lesson Planning</span>
+                                <span class="skill-chip-badge">Teaching</span>
+                                <span class="skill-chip-badge">Student Engagement</span>
+                            </div>
+                        </div>
+
+                        <!-- Engagement Module Core CTA Request Action Trigger Button Row -->
+                        <div class="cta-action-container">
+                            <button class="cta-primary-action-btn">
+                                Request Interview (1 Credit)
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+            </div>
+        </div>
+    </main>
+
+</body>
+</html>

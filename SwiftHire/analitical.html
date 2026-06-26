@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trust Hire - Analytics</title>
+    <style>
+        /* BASE SYSTEM RESET & OFFLINE-SAFE TYPOGRAPHY */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #F1F5F9;
+            color: #1E293B;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* GRID/FLEX ARCHITECTURE */
+        aside {
+            width: 260px;
+            background-color: #0B132B;
+            color: #94A3B8;
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+            height: 100%;
+            overflow: hidden;
+        }
+        .sidebar-brand-box {
+            padding: 24px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #FFFFFF;
+            font-size: 20px;
+            font-weight: 700;
+        }
+        .sidebar-brand-box svg {
+            width: 28px;
+            height: 28px;
+            fill: #6366F1;
+        }
+        .sidebar-menu-scroller {
+            flex: 1;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+           
+        }
+        .menu-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            color: #94A3B8;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+        .menu-item-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .menu-item svg {
+            width: 18px;
+            height: 18px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+        }
+        .menu-item:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            color: #F8FAFC;
+        }
+        .menu-item.active {
+            background-color: #1E293B;
+            color: #A5B4FC;
+            font-weight: 600;
+            box-shadow: inset 4px 0 0 #6366F1;
+        }
+        .menu-badge {
+            background-color: #4338CA;
+            color: #FFFFFF;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 10px;
+        }
+        .sidebar-footer {
+            padding: 16px 12px;
+            border-top: 1px solid #1E293B;
+        }
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            overflow: hidden;
+        }
+        .app-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* APPLICATION GLOBAL STICKY HEADER STRIP */
+        header {
+            background-color: #0B132B;
+            color: #FFFFFF;
+            padding: 24px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #1E293B;
+            flex-shrink: 0;
+        }
+        header h1 {
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .header-icon-badge-trigger {
+            background: none;
+            border: none;
+            color: #94A3B8;
+            cursor: pointer;
+            font-size: 16px;
+            position: relative;
+        }
+        .user-pill-dropdown {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding-left: 12px;
+            border-left: 1px solid #1E293B;
+        }
+        .user-avatar-frame {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background-color: #475569;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 10px;
+            color: #FFFFFF;
+        }
+        .user-title-block {
+            text-align: left;
+            line-height: 1.1;
+        }
+        .user-title-block .name {
+            font-size: 11px;
+            font-weight: 600;
+            color: #F8FAFC;
+        }
+        .user-title-block .role {
+            font-size: 9px;
+            color: #94A3B8;
+        }
+
+        /* COMPACT NAVIGATION SIDEBAR ASSEMBLY */
+        .sidebar-brand {
+         height: 80px;
+         width: 100px;
+         margin-left: 30px;
+         background: url('logo1.jpeg');
+         background-size: contain;
+         background-repeat: stretch;
+        }
+        .sidebar-brand-icon {
+            border-radius: 50%;
+           
+            padding: 4px;
+        }
+        .sidebar-nav-scroller {
+            flex: 1;
+            padding: 4px 8px;
+            overflow-y: auto;
+        }
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 12px;
+            border-radius: 6px;
+            color: #94A3B8;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 500;
+            margin-bottom: 2px;
+        }
+        .sidebar-link:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            color: #FFFFFF;
+        }
+        .sidebar-link.active {
+            background: linear-gradient(90deg, #4F46E5, #6366F1);
+            color: #FFFFFF;
+            font-weight: 600;
+        }
+        .sidebar-bottom-action {
+            padding: 12px;
+            border-top: 1px solid #1E293B;
+        }
+
+        /* WELCOME STRIP HERO ELEMENT */
+        .dashboard-welcome-hero {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #FFFFFF;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid #E2E8F0;
+        }
+        .welcome-msg h2 {
+            font-size: 20px;
+            font-weight: 700;
+            color: #0F172A;
+        }
+        .welcome-msg p {
+            font-size: 12px;
+            color: #64748B;
+            margin-top: 4px;
+        }
+        .btn-post-job {
+            background-color: #4F46E5;
+            color: #FFFFFF;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 10px 18px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .btn-post-job:hover {
+            background-color: #4338CA;
+        }
+
+        /* TOP CORE METRICS QUAD-GRID LAYOUT */
+        .metrics-quad-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 16px;
+        }
+        @media (max-width: 1024px) {
+            .metrics-quad-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+        @media (max-width: 640px) {
+            .metrics-quad-grid {
+                grid-template-columns: repeat(1, minmax(0, 1fr));
+            }
+        }
+        .metric-mini-card {
+            background-color: #FFFFFF;
+            border-radius: 12px;
+            border: 1px solid #E2E8F0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 140px;
+        }
+        .metric-mini-card h3 {
+            font-size: 11px;
+            font-weight: 700;
+            color: #475569;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+        .metric-big-value {
+            font-size: 32px;
+            font-weight: 800;
+            color: #0F172A;
+            margin-top: 8px;
+            line-height: 1;
+        }
+        .metric-subtext-note {
+            font-size: 11px;
+            color: #94A3B8;
+            margin-top: 4px;
+        }
+        .metric-action-link-row {
+            margin-top: 16px;
+        }
+        .mini-card-action-btn {
+            background-color: #F1F5F9;
+            color: #4F46E5;
+            border: 1px solid #E2E8F0;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 6px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        .mini-card-action-btn:hover {
+            background-color: #E2E8F0;
+        }
+        .mini-card-action-btn.primary-tint {
+            background-color: #4F46E5;
+            color: #FFFFFF;
+            border: none;
+        }
+        .mini-card-action-btn.primary-tint:hover {
+            background-color: #4338CA;
+        }
+        .plain-text-link {
+            font-size: 11px;
+            font-weight: 700;
+            color: #4F46E5;
+            text-decoration: none;
+        }
+        .plain-text-link:hover {
+            text-decoration: underline;
+        }
+
+        /* ROW BLOCKS DESIGN (MIDDLE & LOWER SECTIONS) */
+        .dashboard-row-layout {
+            display: grid;
+            grid-template-columns: repeat(12, minmax(0, 1fr));
+            gap: 16px;
+        }
+        .col-span-5 { grid-column: span 5 / span 5; }
+        .col-span-4 { grid-column: span 4 / span 4; }
+        .col-span-3 { grid-column: span 3 / span 3; }
+        .col-span-7 { grid-column: span 7 / span 7; }
+        @media (max-width: 1024px) {
+            .col-span-5, .col-span-4, .col-span-3, .col-span-7 {
+                grid-column: span 12 / span 12 !important;
+            }
+        }
+
+        /* STANDARD CARD CONTAINER MODULE */
+        .standard-section-card {
+            background-color: #FFFFFF;
+            border-radius: 12px;
+            border: 1px solid #E2E8F0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+        .section-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        .section-card-header h3 {
+            font-size: 13px;
+            font-weight: 700;
+            color: #0F172A;
+        }
+
+        /* LIST LAYOUT ELEMENTS (RECENT INTERVIEWS) */
+        .items-stacked-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .list-row-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #F1F5F9;
+        }
+        .list-row-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        .avatar-info-cluster {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .avatar-placeholder-box {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: #E2E8F0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 11px;
+            color: #475569;
+        }
+        .text-cluster-details .title-name {
+            font-size: 12px;
+            font-weight: 600;
+            color: #0F172A;
+            line-height: 1.2;
+        }
+        .text-cluster-details .subtitle-label {
+            font-size: 11px;
+            color: #64748B;
+            margin-top: 2px;
+        }
+        .meta-timestamp-badge-group {
+            text-align: right;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 4px;
+        }
+        .time-delta-text {
+            font-size: 10px;
+            color: #94A3B8;
+        }
+        .badge-status-pill-new {
+            background-color: #ECFDF5;
+            color: #10B981;
+            font-size: 9px;
+            font-weight: 700;
+            padding: 1px 5px;
+            border-radius: 4px;
+            text-transform: uppercase;
+        }
+        .section-footer-center-btn {
+            margin-top: 16px;
+            text-align: center;
+            border-top: 1px solid #F1F5F9;
+            padding-top: 12px;
+        }
+
+        /* DATA VIZ MOCK (DONUT CHART VIA ELEMENT WRAPPING) */
+        .donut-visualization-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            flex: 1;
+            padding: 10px 0;
+        }
+        .css-donut-chart-graphic {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            background: conic-gradient(#4F46E5 0% 45%, #0EA5E9 45% 70%, #10B981 70% 90%, #F59E0B 90% 100%);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .css-donut-chart-graphic::after {
+            content: "";
+            position: absolute;
+            width: 70px;
+            height: 70px;
+            background-color: #FFFFFF;
+            border-radius: 50%;
+        }
+        .donut-chart-legend-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .legend-indicator-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 11px;
+            color: #475569;
+            font-weight: 500;
+        }
+        .legend-color-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        /* LINE GRAPH VISUALIZATION CONSTRUCT */
+        .profile-views-summary-head {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        .profile-views-summary-head .main-count {
+            font-size: 28px;
+            font-weight: 800;
+            color: #0F172A;
+        }
+        .profile-views-summary-head .rate-percentage {
+            font-size: 11px;
+            font-weight: 700;
+            color: #10B981;
+        }
+        .profile-views-summary-head .timeline-scope {
+            font-size: 10px;
+            color: #94A3B8;
+        }
+        .line-chart-canvas-area {
+            position: relative;
+            height: 100px;
+            border-bottom: 1px solid #E2E8F0;
+            border-left: 1px solid #E2E8F0;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: flex-end;
+        }
+        /* Pure CSS SVG simulation vector for offline stability */
+        .line-chart-svg-mock {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        .chart-grid-ticks-y {
+            position: absolute;
+            left: -24px;
+            width: 20px;
+            display: flex;
+            flex-direction: column-reverse;
+            justify-content: space-between;
+            height: 100%;
+            font-size: 9px;
+            color: #94A3B8;
+            text-align: right;
+        }
+        .chart-labels-row-x {
+            display: flex;
+            justify-content: space-between;
+            padding-top: 4px;
+            font-size: 9px;
+            color: #94A3B8;
+        }
+
+        /* TABLE ARRAYS FOR JOB POSTINGS & HIRES */
+        .custom-data-table-wrapper {
+            overflow-x: auto;
+            width: 100%;
+        }
+        .custom-dashboard-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 11px;
+        }
+        .custom-dashboard-table tbody tr {
+            border-bottom: 1px solid #F1F5F9;
+        }
+        .custom-dashboard-table tbody tr:last-child {
+            border-bottom: none;
+        }
+        .custom-dashboard-table td {
+            padding: 10px 8px;
+            vertical-align: middle;
+            color: #475569;
+            font-weight: 500;
+        }
+        .custom-dashboard-table td:first-child {
+            padding-left: 0;
+        }
+        .custom-dashboard-table td:last-child {
+            padding-right: 0;
+            text-align: right;
+        }
+        .table-primary-text-bold {
+            font-weight: 600;
+            color: #0F172A;
+            font-size: 12px;
+        }
+        .status-badge-inline-pill {
+            background-color: #F8FAFC;
+            color: #64748B;
+            font-size: 9px;
+            font-weight: 600;
+            padding: 2px 6px;
+            border-radius: 4px;
+            text-transform: capitalize;
+            border: 1px solid #E2E8F0;
+        }
+        .status-badge-inline-pill.active-state {
+            background-color: #F0FDF4;
+            color: #16A34A;
+            border-color: #DCFCE7;
+        }
+        .table-inline-action-btn {
+            background-color: #F1F5F9;
+            color: #4F46E5;
+            border: 1px solid #E2E8F0;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .table-inline-action-btn:hover {
+            background-color: #E2E8F0;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- LEFT COMPACT SIDEBAR NAVIGATION PANEL -->
+        <aside>
+        <div class="sidebar-brand-box">
+            <svg viewBox="0 0 24 24">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+            </svg>
+            <span>Trust Hire</span>
+        </div>
+        <div class="sidebar-menu-scroller">
+            <a href="index.html" class="menu-item">
+                <div class="menu-item-left">
+                    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>
+                    <span>Home</span>
+                </div>
+            </a>
+            <a href="listing candidate.html" class="menu-item">
+                <div class="menu-item-left">
+                    <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                    <span>Search Candidates</span>
+                </div>
+            </a>
+            <a href="save.html" class="menu-item">
+                <div class="menu-item-left">
+                    <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    <span>Saved Candidates</span>
+                </div>
+            </a>
+            <a href="profile.html" class="menu-item">
+                <div class="menu-item-left">
+                    <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    <span>Candidate Profiles</span>
+                </div>
+            <a href="scoring.html" class="menu-item">
+                <div class="menu-item-left">
+                    <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    <span>Trust Score Method</span>
+                </div>
+            </a>
+            <a href="analitical.html" class="menu-item active">
+                <div class="menu-item-left">
+                    <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                    <span>Analytics</span>
+                </div>
+            </a>
+            <a href="about.html" class="menu-item">
+                <div class="menu-item-left">
+                    <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    <span>Company Profile</span>
+                </div>
+            </a>
+            <a href="notification.html" class="menu-item">
+                <div class="menu-item-left">
+                    <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                    <span>Notifications</span>
+                </div>
+                <span class="menu-badge">3</span>
+            </a>
+            <a href="billing.html" class="menu-item">
+                <div class="menu-item-left">
+                    <svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+                    <span>Billing</span>
+                </div>
+            </a>
+            <a href="settings.html" class="menu-item">
+                <div class="menu-item-left">
+                    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                    <span>Settings</span>
+                </div>
+            </a>
+        </div>
+        <div class="sidebar-footer">
+            <a href="#" class="menu-item">
+                <div class="menu-item-left">
+                    <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                    <span>Logout</span>
+                </div>
+            </a>
+        </div>
+    </aside>
+
+    <!-- MAIN DASHBOARD HUB VIEW INTERFACE -->
+    <main>
+        <!-- Top Application Navigation Header Strip -->
+        <header>
+            <h1>Analytics Hub</h1>
+            <div class="header-controls">
+                <button class="header-icon-badge-trigger">🔔</button>
+                <button class="header-icon-badge-trigger">✉️</button>
+                <div class="user-pill-dropdown">
+                    <div class="user-avatar-frame">DNK</div>
+                    <div class="user-title-block">
+                        <p class="name">DNK Official</p>
+                        <p class="role">Employer</p>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Fluid Application Content Area Frame -->
+        <div class="app-container">
+            
+            <!-- Dashboard Welcome Action Hero Row Strip -->
+            <div class="dashboard-welcome-hero">
+                <div class="welcome-msg">
+                    <h2>Welcome back, DNK Official 👋</h2>
+                    <p>Here's what's happening with your hiring today.</p>
+                </div>
+                <button class="btn-post-job">
+                    <span>Find Talent</span>
+                </button>
+            </div>
+
+            <!-- Top Level Core Statistics Quad Grid Layout Row -->
+            <div class="metrics-quad-grid">
+                <!-- Card Item 1 -->
+                <div class="metric-mini-card">
+                    <h3>Total Credits</h3>
+                    <div>
+                        <div class="metric-big-value">45</div>
+                        <div class="metric-subtext-note">Available Credits</div>
+                    </div>
+                    <div class="metric-action-link-row">
+                        <button class="mini-card-action-btn primary-tint">Buy Credits</button>
+                    </div>
+                </div>
+                <!-- Card Item 2 -->
+                <div class="metric-mini-card">
+                    <h3>Interview Requests</h3>
+                    <div>
+                        <div class="metric-big-value">12</div>
+                        <div class="metric-subtext-note">Total Requests</div>
+                    </div>
+                    <div class="metric-action-link-row">
+                        <button class="mini-card-action-btn">View All</button>
+                    </div>
+                </div>
+                <!-- Card Item 3 -->
+                <div class="metric-mini-card">
+                    <h3>Active Jobs</h3>
+                    <div>
+                        <div class="metric-big-value">3</div>
+                        <div class="metric-subtext-note">Live Job Postings</div>
+                    </div>
+                    <div class="metric-action-link-row">
+                        <button class="mini-card-action-btn">View Jobs</button>
+                    </div>
+                </div>
+                <!-- Card Item 4 -->
+                <div class="metric-mini-card">
+                    <h3>Hires Made</h3>
+                    <div>
+                        <div class="metric-big-value">8</div>
+                        <div class="metric-subtext-note">Total Hires</div>
+                    </div>
+                    <div class="metric-action-link-row">
+                        <button class="mini-card-action-btn">View Hires</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Middle Level Segment Analytical Component Split Panel Rows -->
+            <div class="dashboard-row-layout">
+                <!-- Recent Interview Requests Card Element -->
+                <div class="standard-section-card col-span-5">
+                    <div class="section-card-header">
+                        <h3>Recent Interview Requests</h3>
+                    </div>
+                    <div class="items-stacked-list">
+                        <!-- Stakeholder Row Item 1 -->
+                        <div class="list-row-item">
+                            <div class="avatar-info-cluster">
+                                <div class="avatar-placeholder-box">EB</div>
+                                <div class="text-cluster-details">
+                                    <p class="title-name">Esther Blessing</p>
+                                    <p class="subtitle-label">Secondary School Teacher</p>
+                                </div>
+                            </div>
+                            <div class="meta-timestamp-badge-group">
+                                <span class="time-delta-text">1 hour ago</span>
+                                <span class="badge-status-pill-new">New</span>
+                            </div>
+                        </div>
+                        <!-- Stakeholder Row Item 2 -->
+                        <div class="list-row-item">
+                            <div class="avatar-info-cluster">
+                                <div class="avatar-placeholder-box">MJ</div>
+                                <div class="text-cluster-details">
+                                    <p class="title-name">Michael John</p>
+                                    <p class="subtitle-label">Math Teacher</p>
+                                </div>
+                            </div>
+                            <div class="meta-timestamp-badge-group">
+                                <span class="time-delta-text">3 hours ago</span>
+                                <span class="badge-status-pill-new">New</span>
+                            </div>
+                        </div>
+                        <!-- Stakeholder Row Item 3 -->
+                        <div class="list-row-item">
+                            <div class="avatar-info-cluster">
+                                <div class="avatar-placeholder-box">GD</div>
+                                <div class="text-cluster-details">
+                                    <p class="title-name">Grace David</p>
+                                    <p class="subtitle-label">English Teacher</p>
+                                </div>
+                            </div>
+                            <div class="meta-timestamp-badge-group">
+                                <span class="time-delta-text">5 hours ago</span>
+                                <span class="badge-status-pill-new">New</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="section-footer-center-btn">
+                        <a href="#" class="plain-text-link">View All Requests</a>
+                    </div>
+                </div>
+
+                <!-- Top Skills In Demand Segment Card Chart Element -->
+                <div class="standard-section-card col-span-4">
+                    <div class="section-card-header">
+                        <h3>Top Skills in Demand</h3>
+                    </div>
+                    <div class="donut-visualization-container">
+                        <!-- Custom Vector Simulated conic ring array map for pure offline layout layout graphic -->
+                        <div class="css-donut-chart-graphic"></div>
+                        <div class="donut-chart-legend-stack">
+                            <div class="legend-indicator-row">
+                                <span class="legend-color-dot" style="background-color: #4F46E5;"></span>
+                                <span>Teaching</span>
+                            </div>
+                            <div class="legend-indicator-row">
+                                <span class="legend-color-dot" style="background-color: #0EA5E9;"></span>
+                                <span>Communication</span>
+                            </div>
+                            <div class="legend-indicator-row">
+                                <span class="legend-color-dot" style="background-color: #10B981;"></span>
+                                <span>Management</span>
+                            </div>
+                            <div class="legend-indicator-row">
+                                <span class="legend-color-dot" style="background-color: #F59E0B;"></span>
+                                <span>Others</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Profile Views Vector Area Historical Trend Line Element -->
+                <div class="standard-section-card col-span-3">
+                    <div class="section-card-header">
+                        <h3>Profile Views (This Week)</h3>
+                    </div>
+                    <div class="profile-views-summary-head">
+                        <span class="main-count">245</span>
+                        <span class="rate-percentage">+18%</span>
+                        <span class="timeline-scope">from last week</span>
+                    </div>
+                    <!-- Vector Grid Simulator Graphic Canvas Assembly Block for Offline Mode -->
+                    <div class="line-chart-canvas-area">
+                        <div class="chart-grid-ticks-y">
+                            <span>0</span><span>100</span><span>200</span><span>300</span>
+                        </div>
+                        <svg class="line-chart-svg-mock" viewBox="0 0 100 50" preserveAspectRatio="none">
+                            <path d="M0,45 L16,38 L33,35 L50,28 L66,22 L83,15 L100,10" fill="none" stroke="#4F46E5" stroke-width="2"></path>
+                            <path d="M0,45 L16,38 L33,35 L50,28 L66,22 L83,15 L100,10 L100,50 L0,50 Z" fill="rgba(79, 70, 229, 0.08)"></path>
+                        </svg>
+                    </div>
+                    <div class="chart-labels-row-x">
+                        <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lower Level Data Records Dynamic Layout Split Rows Frame -->
+            <div class="dashboard-row-layout">
+                <!-- Recent Job Postings Data Block Component -->
+                <div class="standard-section-card col-span-7">
+                    <div class="section-card-header">
+                        <h3>Recent Job Postings</h3>
+                    </div>
+                    <div class="custom-data-table-wrapper">
+                        <table class="custom-dashboard-table">
+                            <tbody>
+                                <!-- Item Entity Row -->
+                                <tr>
+                                    <td><span class="table-primary-text-bold">Mathematics Teacher</span></td>
+                                    <td><span>Full-time</span></td>
+                                    <td><span>24 Applicants</span></td>
+                                    <td><span class="status-badge-inline-pill active-state">Active</span></td>
+                                </tr>
+                                <!-- Item Entity Row -->
+                                <tr>
+                                    <td><span class="table-primary-text-bold">English Language Teacher</span></td>
+                                    <td><span>Part-time</span></td>
+                                    <td><span>18 Applicants</span></td>
+                                    <td><span class="status-badge-inline-pill active-state">Active</span></td>
+                                </tr>
+                                <!-- Item Entity Row -->
+                                <tr>
+                                    <td><span class="table-primary-text-bold">Physics Teacher</span></td>
+                                    <td><span>Full-time</span></td>
+                                    <td><span>12 Applicants</span></td>
+                                    <td><span class="status-badge-inline-pill active-state">Active</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="section-footer-center-btn" style="margin-top: auto;">
+                        <a href="#" class="plain-text-link">View All Jobs</a>
+                    </div>
+                </div>
+
+                <!-- Recent Hires Hired Logging Records Module Panel Block -->
+                <div class="standard-section-card col-span-5">
+                    <div class="section-card-header">
+                        <h3>Recent Hires</h3>
+                    </div>
+                    <div class="custom-data-table-wrapper">
+                        <table class="custom-dashboard-table">
+                            <tbody>
+                                <!-- Item Entity Row -->
+                                <tr>
+                                    <td>
+                                        <div class="table-profile-cell">
+                                            <div class="table-avatar-placeholder" style="width:24px; height:24px;">V</div>
+                                            <div>
+                                                <p style="font-weight:600; color:#0F172A;">Victoria</p>
+                                                <p style="font-size:10px; color:#64748B;">Biology Teacher</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td><span style="font-size:10px;">Hired on 25 May, 2026</span></td>
+                                    <td><button class="table-inline-action-btn">View</button></td>
+                                    
+                                </tr>
+                                <!-- Item Entity Row -->
+                                <tr>
+                                    <td>
+                                        <div class="table-profile-cell">
+                                            <div class="table-avatar-placeholder" style="width:24px; height:24px;">DK</div>
+                                            <div>
+                                                <p style="font-weight:600; color:#0F172A;">Daniel K.</p>
+                                                <p style="font-size:10px; color:#64748B;">Physics Teacher</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td><span style="font-size:10px;">Hired on 20 May, 2026</span></td>
+                                    <td><button class="table-inline-action-btn">View</button></td>
+                                </tr>
+                                <!-- Item Entity Row -->
+                                <tr>
+                                    <td>
+                                        <div class="table-profile-cell">
+                                            <div class="table-avatar-placeholder" style="width:24px; height:24px;">L</div>
+                                            <div>
+                                                <p style="font-weight:600; color:#0F172A;">Linda</p>
+                                                <p style="font-size:10px; color:#64748B;">Chemistry Teacher</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td><span style="font-size:10px;">Hired on 18 May, 2026</span></td>
+                                    <td><button class="table-inline-action-btn">View</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="section-footer-center-btn" style="margin-top: auto;">
+                        <a href="#" class="plain-text-link">View All Hires</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+</body>
+</html>
